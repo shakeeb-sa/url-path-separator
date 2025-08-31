@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>URL Path Separator - Expanded</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        background: #f7f7f7;
+      }
+      textarea {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        font-size: 14px;
+      }
+      button {
+        padding: 10px 15px;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        opacity: 0.9;
+      }
+      .container {
+        background: white;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-top: 20px;
+        white-space: pre-wrap;
+      }
+      h3 {
+        margin-top: 0;
+        color: #333;
+      }
+      /* Optional: Make categories scrollable if many */
+      /* For simplicity, keeping as is */
+    </style>
+  </head>
+  <body>
+    <h2>URL Path Separator - Expanded</h2>
+    <p>Paste URLs (one per line):</p>
+    <textarea id="urlInput" rows="8" placeholder="https://example.com/forums/thread1"></textarea>
+    <button onclick="separateUrls()" style="background:#4CAF50;">Separate URLs</button>
+    <button onclick="resetFields()" style="background:#d9534f; margin-left:10px;">Reset</button>
+    <br>
+    <button onclick="scrollToSection('profileSection')" style="background:#007BFF; margin-top:10px;">/Profile/</button>
+    <button onclick="scrollToSection('forumSection')" style="background:#007BFF; margin-top:10px;">/forum/</button>
+    <button onclick="scrollToSection('employerSection')" style="background:#007BFF; margin-top:10px;">/employer/</button>
+    <button onclick="scrollToSection('readblogSection')" style="background:#007BFF; margin-top:10px;">/read-blog/</button>
+    <button onclick="scrollToSection('otherSection')" style="background:#007BFF; margin-top:10px;">/other/</button>
+    <button onclick="scrollToSection('questionSection')" style="background:#007BFF; margin-top:10px;">/question/</button>
+    <button onclick="scrollToSection('communityProfileSection')" style="background:#007BFF; margin-top:10px;">/community/profile/</button>
+    <button onclick="scrollToSection('userSection')" style="background:#007BFF; margin-top:10px;">/user/</button>
+    <button onclick="scrollToSection('discussionsSection')" style="background:#007BFF; margin-top:10px;">/discussions/</button>
+    <button onclick="scrollToSection('uSection')" style="background:#007BFF; margin-top:10px;">/u/</button>
+    <button onclick="scrollToSection('snippetsSection')" style="background:#007BFF; margin-top:10px;">/snippets/</button>
+    <button onclick="scrollToSection('issuesSection')" style="background:#007BFF; margin-top:10px;">/issues/</button>
+    <button onclick="scrollToSection('projectsSection')" style="background:#007BFF; margin-top:10px;">-/projects</button>
+    <button onclick="scrollToSection('tabFieldCorePfieldSection')" style="background:#007BFF; margin-top:10px;">?tab=field_core_pfield</button>
+    <button onclick="scrollToSection('peopleSection')" style="background:#007BFF; margin-top:10px;">/people/</button>
+    <button onclick="scrollToSection('ideasSection')" style="background:#007BFF; margin-top:10px;">/ideas/</button>
+    <button onclick="scrollToSection('boardSection')" style="background:#007BFF; margin-top:10px;">/board/board_topic/</button>
+    <button onclick="scrollToSection('forumThreadSection')" style="background:#007BFF; margin-top:10px;">/forum/thread/</button>
+    <button onclick="scrollToSection('blogsSection')" style="background:#007BFF; margin-top:10px;">/blogs/</button>
+    <button onclick="scrollToSection('listingSection')" style="background:#007BFF; margin-top:10px;">/listing/</button>
+    <button onclick="scrollToSection('mysiteGroupSection')" style="background:#007BFF; margin-top:10px;">mysite-200-group</button>
+    <button onclick="scrollToSection('groupSection')" style="background:#007BFF; margin-top:10px;">/group/</button>
+    <button onclick="scrollToSection('forumsTopicSection')" style="background:#007BFF; margin-top:10px;">/forums/topic/</button>
+    <button onclick="scrollToSection('mncoPostsSection')" style="background:#007BFF; margin-top:10px;">/mn.co/posts/</button>
+    <button onclick="scrollToSection('memberSection')" style="background:#007BFF; margin-top:10px;">/member/</button>
+    <button onclick="scrollToSection('candidateSection')" style="background:#007BFF; margin-top:10px;">/candidate/</button>
+    <button onclick="scrollToSection('authorSection')" style="background:#007BFF; margin-top:10px;">/author/</button>
+    <button onclick="scrollToSection('companySection')" style="background:#007BFF; margin-top:10px;">/company/</button>
+    <button onclick="scrollToSection('companiesSection')" style="background:#007BFF; margin-top:10px;">/companies/</button>
+    <button onclick="scrollToSection('forumsUsersSection')" style="background:#007BFF; margin-top:10px;">/forums/users/</button>
+    <button onclick="scrollToSection('classifiedsSection')" style="background:#007BFF; margin-top:10px;">/classifieds/</button>
+    <button onclick="scrollToSection('adsSection')" style="background:#007BFF; margin-top:10px;">/ads/</button>
+    <button onclick="scrollToSection('users2Section')" style="background:#007BFF; margin-top:10px;">/users/</button>
+    <button onclick="scrollToSection('member2Section')" style="background:#007BFF; margin-top:10px;">/members/</button>
+    <button onclick="scrollToSection('topicSection')" style="background:#007BFF; margin-top:10px;">/topic/</button>
+    <button onclick="scrollToSection('servicesSection')" style="background:#007BFF; margin-top:10px;">/services/</button>
+    <button onclick="scrollToSection('discussSection')" style="background:#007BFF; margin-top:10px;">/discuss/</button>
+    <button onclick="scrollToSection('profile2Section')" style="background:#007BFF; margin-top:10px;">/profiles/</button>
+    <button onclick="scrollToSection('employer2Section')" style="background:#007BFF; margin-top:10px;">/employers/</button>
+
+    <!-- Existing categories -->
+    <div id="profileSection" class="container">
+      <h3>/Profile/</h3>
+      <div id="profileUrls">No URLs</div>
+    </div>
+    <div id="forumSection" class="container">
+      <h3>/forum/</h3>
+      <div id="forumUrls">No URLs</div>
+    </div>
+    <div id="employerSection" class="container">
+      <h3>/employer/</h3>
+      <div id="employerUrls">No URLs</div>
+    </div>
+    <div id="readblogSection" class="container">
+      <h3>/read-blog/</h3>
+      <div id="readblogUrls">No URLs</div>
+    </div>
+    <div id="otherSection" class="container">
+      <h3>/other/</h3>
+      <div id="otherUrls">No URLs</div>
+    </div>
+
+    <!-- New categories for the 26 paths -->
+    <div id="questionSection" class="container">
+      <h3>/question/</h3>
+      <div id="questionUrls">No URLs</div>
+    </div>
+    <div id="communityProfileSection" class="container">
+      <h3>/community/profile/</h3>
+      <div id="communityProfileUrls">No URLs</div>
+    </div>
+    <div id="userSection" class="container">
+      <h3>/user/</h3>
+      <div id="userUrls">No URLs</div>
+    </div>
+    <div id="discussionsSection" class="container">
+      <h3>/discussions/</h3>
+      <div id="discussionsUrls">No URLs</div>
+    </div>
+    <div id="uSection" class="container">
+      <h3>/u/</h3>
+      <div id="uUrls">No URLs</div>
+    </div>
+    <div id="snippetsSection" class="container">
+      <h3>/snippets/</h3>
+      <div id="snippetsUrls">No URLs</div>
+    </div>
+    <div id="issuesSection" class="container">
+      <h3>/issues/</h3>
+      <div id="issuesUrls">No URLs</div>
+    </div>
+    <div id="projectsSection" class="container">
+      <h3>-/projects</h3>
+      <div id="projectsUrls">No URLs</div>
+    </div>
+    <div id="tabFieldCorePfieldSection" class="container">
+      <h3>?tab=field_core_pfield</h3>
+      <div id="tabFieldCorePfieldUrls">No URLs</div>
+    </div>
+    <div id="peopleSection" class="container">
+      <h3>/people/</h3>
+      <div id="peopleUrls">No URLs</div>
+    </div>
+    <div id="ideasSection" class="container">
+      <h3>/ideas/</h3>
+      <div id="ideasUrls">No URLs</div>
+    </div>
+    <div id="boardSection" class="container">
+      <h3>/board/board_topic/</h3>
+      <div id="boardUrls">No URLs</div>
+    </div>
+    <div id="forumThreadSection" class="container">
+      <h3>/forum/thread/</h3>
+      <div id="forumThreadUrls">No URLs</div>
+    </div>
+    <div id="blogsSection" class="container">
+      <h3>/blogs/</h3>
+      <div id="blogsUrls">No URLs</div>
+    </div>
+    <div id="listingSection" class="container">
+      <h3>/listing/</h3>
+      <div id="listingUrls">No URLs</div>
+    </div>
+    <div id="mysiteGroupSection" class="container">
+      <h3>mysite-200-group</h3>
+      <div id="mysiteGroupUrls">No URLs</div>
+    </div>
+    <div id="groupSection" class="container">
+      <h3>/group/</h3>
+      <div id="groupUrls">No URLs</div>
+    </div>
+    <div id="forumsTopicSection" class="container">
+      <h3>/forums/topic/</h3>
+      <div id="forumsTopicUrls">No URLs</div>
+    </div>
+    <div id="mncoPostsSection" class="container">
+      <h3>/mn.co/posts/</h3>
+      <div id="mncoPostsUrls">No URLs</div>
+    </div>
+    <div id="memberSection" class="container">
+      <h3>/member/</h3>
+      <div id="memberUrls">No URLs</div>
+    </div>
+    <div id="candidateSection" class="container">
+      <h3>/candidate/</h3>
+      <div id="candidateUrls">No URLs</div>
+    </div>
+    <div id="authorSection" class="container">
+      <h3>/author/</h3>
+      <div id="authorUrls">No URLs</div>
+    </div>
+    <div id="companySection" class="container">
+      <h3>/company/</h3>
+      <div id="companyUrls">No URLs</div>
+    </div>
+    <div id="companiesSection" class="container">
+      <h3>/companies/</h3>
+      <div id="companiesUrls">No URLs</div>
+    </div>
+    <div id="forumsUsersSection" class="container">
+      <h3>/forums/users/</h3>
+      <div id="forumsUsersUrls">No URLs</div>
+    </div>
+    <div id="classifiedsSection" class="container">
+      <h3>/classifieds/</h3>
+      <div id="classifiedsUrls">No URLs</div>
+    </div>
+    <div id="adsSection" class="container">
+      <h3>/ads/</h3>
+      <div id="adsUrls">No URLs</div>
+    </div>
+    <div id="users2Section" class="container">
+      <h3>/users/</h3>
+      <div id="users2Urls">No URLs</div>
+    </div>
+    <div id="member2Section" class="container">
+      <h3>/members/</h3>
+      <div id="member2Urls">No URLs</div>
+    </div>
+    <div id="topicSection" class="container">
+      <h3>/topic/</h3>
+      <div id="topicUrls">No URLs</div>
+    </div>
+    <div id="servicesSection" class="container">
+      <h3>/services/</h3>
+      <div id="servicesUrls">No URLs</div>
+    </div>
+    <div id="discussSection" class="container">
+      <h3>/discuss/</h3>
+      <div id="discussUrls">No URLs</div>
+    </div>
+    <div id="profile2Section" class="container">
+      <h3>/profiles/</h3>
+      <div id="profile2Urls">No URLs</div>
+    </div>
+    <div id="employer2Section" class="container">
+      <h3>/employers/</h3>
+      <div id="employer2Urls">No URLs</div>
+    </div>
+    <script>
+      function separateUrls() {
+        let urls = document.getElementById('urlInput').value.trim().split(/\r?\n/);
+        // Initialize arrays for all categories
+        let categories = {
+          profile: [],
+          forum: [],
+          employer: [],
+          readblog: [],
+          other: [],
+          question: [],
+          communityProfile: [],
+          user: [],
+          discussions: [],
+          u: [],
+          snippets: [],
+          issues: [],
+          projects: [],
+          tabFieldCorePfield: [],
+          people: [],
+          ideas: [],
+          board: [],
+          forumThread: [],
+          blogs: [],
+          listing: [],
+          mysiteGroup: [],
+          group: [],
+          forumsTopic: [],
+          mncoPosts: [],
+          member: [],
+          candidate: [],
+          author: [],
+          company: [],
+          companies: [],
+          forumsUsers: [],
+          classifieds: [],
+          ads: [],
+          users2: [],
+          member2: [],
+          topic: [],
+          services: [],
+          discuss: [],
+          profile2: [],
+          employer2: [],
+        };
+        // Loop through URLs and categorize
+        urls.forEach(url => {
+          let lowerUrl = url.toLowerCase();
+          if (lowerUrl.includes("/profile/")) {
+            categories.profile.push(url);
+          } else if (lowerUrl.includes("/forum/")) {
+            categories.forum.push(url);
+          } else if (lowerUrl.includes("/employer/")) {
+            categories.employer.push(url);
+          } else if (lowerUrl.includes("/read-blog/")) {
+            categories.readblog.push(url);
+          } else if (lowerUrl.includes("/question/")) {
+            categories.question.push(url);
+          } else if (lowerUrl.includes("/community/profile/")) {
+            categories.communityProfile.push(url);
+          } else if (lowerUrl.includes("/user/")) {
+            categories.user.push(url);
+          } else if (lowerUrl.includes("/discussions/")) {
+            categories.discussions.push(url);
+          } else if (lowerUrl.includes("/u/")) {
+            categories.u.push(url);
+          } else if (lowerUrl.includes("/snippets/")) {
+            categories.snippets.push(url);
+          } else if (lowerUrl.includes("/issues/")) {
+            categories.issues.push(url);
+          } else if (lowerUrl.includes("-/projects")) {
+            categories.projects.push(url);
+          } else if (lowerUrl.includes("?tab=field_core_pfield")) {
+            categories.tabFieldCorePfield.push(url);
+          } else if (lowerUrl.includes("/people/")) {
+            categories.people.push(url);
+          } else if (lowerUrl.includes("/ideas/")) {
+            categories.ideas.push(url);
+          } else if (lowerUrl.includes("/board/board_topic/")) {
+            categories.board.push(url);
+          } else if (lowerUrl.includes("/forum/thread/")) {
+            categories.forumThread.push(url);
+          } else if (lowerUrl.includes("/blogs/")) {
+            categories.blogs.push(url);
+          } else if (lowerUrl.includes("/listing/")) {
+            categories.listing.push(url);
+          } else if (lowerUrl.includes("mysite-200-group")) {
+            categories.mysiteGroup.push(url);
+          } else if (lowerUrl.includes("/group/")) {
+            categories.group.push(url);
+          } else if (lowerUrl.includes("/forums/topic/")) {
+            categories.forumsTopic.push(url);
+          } else if (lowerUrl.includes("/mn.co/posts/")) {
+            categories.mncoPosts.push(url);
+          } else if (lowerUrl.includes("/member/")) {
+            categories.member.push(url);
+          } else if (lowerUrl.includes("/candidate/")) {
+            categories.candidate.push(url);
+          } else if (lowerUrl.includes("/author/")) {
+            categories.author.push(url);
+          } else if (lowerUrl.includes("/company/")) {
+            categories.company.push(url);
+          } else if (lowerUrl.includes("/companies/")) {
+            categories.companies.push(url);
+          } else if (lowerUrl.includes("/forums/users/")) {
+            categories.forumsUsers.push(url);
+          } else if (lowerUrl.includes("/classifieds/")) {
+            categories.classifieds.push(url);
+          } else if (lowerUrl.includes("/ads/")) {
+            categories.ads.push(url);
+          } else if (lowerUrl.includes("/users/")) {
+            categories.users2.push(url);
+          } else if (lowerUrl.includes("/members/")) {
+            categories.member2.push(url);
+          } else if (lowerUrl.includes("/topic/")) {
+            categories.topic.push(url);
+          } else if (lowerUrl.includes("/services/")) {
+            categories.services.push(url);
+          } else if (lowerUrl.includes("/discuss/")) {
+            categories.discuss.push(url);
+          } else if (lowerUrl.includes("/profiles/")) {
+            categories.profile2.push(url);
+          } else if (lowerUrl.includes("/employers/")) {
+            categories.employer2.push(url);
+          } else {
+            categories.other.push(url);
+          }
+        });
+        // Helper to update DOM
+        function updateCategory(id, arr) {
+          document.getElementById(id).textContent = arr.length ? arr.join("\n") : "No URLs";
+        }
+        // Update DOM for each category
+        updateCategory('profileUrls', categories.profile);
+        updateCategory('forumUrls', categories.forum);
+        updateCategory('employerUrls', categories.employer);
+        updateCategory('readblogUrls', categories.readblog);
+        updateCategory('otherUrls', categories.other);
+        updateCategory('questionUrls', categories.question);
+        updateCategory('communityProfileUrls', categories.communityProfile);
+        updateCategory('userUrls', categories.user);
+        updateCategory('discussionsUrls', categories.discussions);
+        updateCategory('uUrls', categories.u);
+        updateCategory('snippetsUrls', categories.snippets);
+        updateCategory('issuesUrls', categories.issues);
+        updateCategory('projectsUrls', categories.projects);
+        updateCategory('tabFieldCorePfieldUrls', categories.tabFieldCorePfield);
+        updateCategory('peopleUrls', categories.people);
+        updateCategory('ideasUrls', categories.ideas);
+        updateCategory('boardUrls', categories.board);
+        updateCategory('forumThreadUrls', categories.forumThread);
+        updateCategory('blogsUrls', categories.blogs);
+        updateCategory('listingUrls', categories.listing);
+        updateCategory('mysiteGroupUrls', categories.mysiteGroup);
+        updateCategory('groupUrls', categories.group);
+        updateCategory('forumsTopicUrls', categories.forumsTopic);
+        updateCategory('mncoPostsUrls', categories.mncoPosts);
+        updateCategory('memberUrls', categories.member);
+        updateCategory('candidateUrls', categories.candidate);
+        updateCategory('authorUrls', categories.author);
+        updateCategory('companyUrls', categories.company);
+        updateCategory('companiesUrls', categories.companies);
+        updateCategory('forumsUsersUrls', categories.forumsUsers);
+        updateCategory('classifiedsUrls', categories.classifieds);
+        updateCategory('adsUrls', categories.ads);
+        updateCategory('users2Urls', categories.users2);
+        updateCategory('member2Urls', categories.member2);
+        updateCategory('topicUrls', categories.topic);
+        updateCategory('servicesUrls', categories.services);
+        updateCategory('discussUrls', categories.discuss);
+        updateCategory('profile2Urls', categories.profile2);
+        updateCategory('employer2Urls', categories.employer2);
+      }
+      function resetFields() {
+        document.getElementById('urlInput').value = "";
+        // Reset all categories to "No URLs"
+        const ids = [
+          'profileUrls', 'forumUrls', 'employerUrls', 'readblogUrls', 'otherUrls',
+          'questionUrls', 'communityProfileUrls', 'userUrls', 'discussionsUrls',
+          'uUrls', 'snippetsUrls', 'issuesUrls', 'projectsUrls', 'tabFieldCorePfieldUrls',
+          'peopleUrls', 'ideasUrls', 'boardUrls', 'forumThreadUrls', 'blogsUrls',
+          'listingUrls', 'mysiteGroupUrls', 'groupUrls', 'forumsTopicUrls', 'mncoPostsUrls',
+          'memberUrls', 'candidateUrls', 'authorUrls', 'companyUrls', 'companiesUrls', 'forumsUsersUrls', 'classifiedsUrls', 'adsUrls', 'users2Urls', 'member2Urls', 'topicUrls',
+          'servicesUrls', 'discussUrls', 'profile2Urls', 'employer2Urls',
+        ];
+        ids.forEach(id => {
+          document.getElementById(id).textContent = "No URLs";
+        });
+      }
+      function scrollToSection(sectionId) {
+        document.getElementById(sectionId).scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    </script>
+    </script>
+  </body>
+</html>
