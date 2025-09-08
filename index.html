@@ -1,446 +1,2033 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>URL Path Separator - Expanded</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Path Separator</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
-        max-width: 1200px;
-        margin: auto;
-        padding: 20px;
-        background: #f7f7f7;
+        font-family: 'Arial', sans-serif;
+        margin: 0 auto;
+        padding: 0px;
+        background-color: #F0EDCC;
+        color: #02343F;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      /* Optional: Add a hover effect for background */
+      body:hover {
+        background-color: #e6e0b8;
+        /* Slightly darker shade for interactivity */
+      }
+      /* Overlay covering the entire page for intro animation */
+      #introOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #f0f0f0;
+        /* same as your background or any color you prefer */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+      /* Container for logos inside overlay */
+      .logo-container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      /* Style for each logo with animation */
+      .logo {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+        transform: scale(2);
+        animation: fadeInScale 1s ease-in-out forwards;
+      }
+      /* Sequential delay for each logo for a nice effect */
+      .logo:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .logo:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .logo:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+      .logo:nth-child(4) {
+        animation-delay: 0.8s;
+      }
+      @keyframes fadeInScale {
+        0% {
+          opacity: 0;
+          transform: scale(6);
+        }
+        70% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      /* Main content (hidden initially) */
+      #mainTool {
+        display: none;
+        margin-left: 4%;
+        margin-right: 4%;
+        /* Hidden until overlay is gone */
       }
       textarea {
-        width: 100%;
+        width: 92%;
         margin-bottom: 10px;
-        padding: 8px;
+        margin-left: 0%;
+        padding: 10px 12px;
         font-size: 14px;
+        font-family: 'Arial', sans-serif;
+        background-color: #F0EDCC;
+        color: #02343F;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+        /* Allows vertical resizing only */
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+      }
+      /* Add focus styles for better accessibility and visual feedback */
+      textarea:focus {
+        border-color: #02343F;
+        box-shadow: 0 0 8px rgba(2, 52, 63, 0.3);
+        outline: none;
+        /* Remove default outline for a cleaner look */
+        transition: box-shadow 0.2s ease, border-color 0.2s ease;
       }
       button {
-        padding: 10px 15px;
-        color: white;
+        padding: 10px 14px;
+        color: #ffffff;
+        background-color: #007BFF;
+        /* Example primary color, customize as needed */
         border: none;
+        border-radius: 4px;
         cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s, opacity 0.3s, box-shadow 0.2s;
       }
       button:hover {
         opacity: 0.9;
+        background-color: #0069d9;
+        /* Slightly darker on hover */
+      }
+      button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+      }
+      button:active {
+        transform: translateY(1px);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
       }
       .container {
-        background: white;
-        padding: 10px;
+        position: relative;
+        background: #F0EDCC;
+        /* Soft, neutral background */
+        padding: 20px;
+        /* Increased padding for better spacing */
         border: 1px solid #ccc;
+        /* Subtle border */
         margin-top: 20px;
+        margin-right: 0%;
+        border-radius: 8px;
+        margin-left: 0%;
+        /* Rounded corners for a modern look */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Light shadow for depth */
         white-space: pre-wrap;
+        /* Preserve whitespace and wrap as needed */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Improved typography */
+        max-width: 100%;
+        /* Responsive width */
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        /* Smooth hover effects */
+      }
+      /* Optional: Add a hover effect for interactivity */
+      .container:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
       }
       h3 {
         margin-top: 0;
         color: #333;
       }
-      /* Optional: Make categories scrollable if many */
-      /* For simplicity, keeping as is */
+      /* Style for all copy buttons */
+      /* Style for all copy buttons */
+      .copy-button {
+        position: absolute;
+        top: 10px;
+        /* Adjust as needed */
+        left: 10px;
+        /* Adjust as needed */
+        background-color: #02343F;
+        /* Primary color */
+        color: #fff;
+        /* Text color */
+        border: none;
+        padding: 8px 16px;
+        /* Slightly larger for better clickability */
+        border-radius: 6px;
+        /* More rounded corners for a modern look */
+        cursor: pointer;
+        font-size: 14px;
+        /* Slightly larger for readability */
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /* Clean font */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* Subtle base shadow */
+        outline: none;
+        /* Remove default outline for custom focus styles */
+      }
+      /* Focus styles for accessibility */
+      .copy-button:focus {
+        outline: 3px solid #0056b3;
+        /* Clear focus indicator */
+        outline-offset: 2px;
+        box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.3);
+      }
+      /* Hover state with enhanced effects */
+      .copy-button:hover {
+        background-color: #0056b3;
+        /* Darker blue */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px);
+        /* Slight lift effect */
+      }
+      /* Active (click) state with inset shadow for feedback */
+      .copy-button:active {
+        background-color: #004080;
+        /* Even darker shade */
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(0);
+        /* Reset lift on click */
+      }
+      #urlInput::placeholder {
+        color: #02343F;
+        /* Primary placeholder color */
+        opacity: 0.8;
+        /* Slight transparency for a softer look */
+        font-style: italic;
+        /* Adds a distinguished style */
+        font-weight: 400;
+        /* Regular weight for consistency */
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /* Consistent font */
+        font-size: 14px;
+        /* Match input font size for harmony */
+        transition: color 0.3s ease, opacity 0.3s ease;
+        /* Smooth transitions for interactions */
+      }
+      /* Optional: Change placeholder style on focus for better UX */
+      #urlInput:focus::placeholder {
+        color: #0056b3;
+        /* Slight color change to indicate focus */
+        opacity: 0.7;
+      }
+      #downloadBtn {
+        color: #F0EDCC;
+        font-weight: bold;
+      }
+      .container h3 {
+        color: #02343F;
+        /* Original color */
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /* Clean, modern font */
+        font-size: 24px;
+        /* Increased size for prominence */
+        font-weight: 600;
+        /* Slightly bold for emphasis */
+        margin-bottom: 16px;
+        /* Space below the heading */
+        line-height: 1.4;
+        /* Better readability */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        /* Subtle text shadow for depth */
+        letter-spacing: 0.5px;
+        /* Slight letter spacing for elegance */
+        transition: color 0.3s ease, transform 0.2s ease;
+        /* Smooth effects on interaction */
+      }
+      /* Optional: Add hover effect for interactivity */
+      .container h3:hover {
+        color: #005F7A;
+        /* Slightly lighter or different shade on hover */
+        transform: translateY(-2px);
+        /* Slight lift on hover */
+      }
+      /* --- New styles for Footer --- */
+      footer {
+        background-color: #02343F;
+        color: #F0EDCC;
+        width: auto;
+        padding: 2rem 1.5rem;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        display: flex;
+        margin-top: 3rem;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 10;
+      }
+      /* Container for footer sections */
+      .footer-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      /* Individual footer section */
+      .footer-section {
+        flex: 1 1 200px;
+        margin: 1rem;
+        min-width: 200px;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .footer-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      /* Footer section headings */
+      .footer-section h3 {
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        font-weight: 700;
+        border-bottom: 3px solid #F0EDCC;
+        padding-bottom: 0.5rem;
+        letter-spacing: 1px;
+        color: #F0EDCC;
+      }
+      @media(max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          align-items: center;
+          padding: 1rem;
+        }
+        .footer-section {
+          flex: 1 1 100%;
+          margin: 1rem 0;
+          text-align: center;
+        }
+      }
+      /* Optional: Additional styles for links inside footer */
+      footer a {
+        color: #F0EDCC;
+        text-decoration: underline;
+      }
+      /* Customize primary color as needed */
+      :root {
+        --primary-color: #02343F;
+        --hover-shadow: rgba(0, 0, 0, 0.12);
+      }
+      /* Navbar styles */
+      .custom-navbar {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        background-color: var(--primary-color);
+        padding: 1rem 2rem;
+        z-index: 999;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+      }
+      .custom-navbar ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+      }
+      .custom-navbar li {
+        margin: 0 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .custom-navbar li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px var(--hover-shadow);
+      }
+      .custom-navbar a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.75rem 1.2rem;
+        border-radius: 8px;
+        transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+        display: inline-block;
+      }
+      .custom-navbar a:hover,
+      .custom-navbar a:focus {
+        background-color: var(--background-color, #F0EDCC);
+        color: var(--primary-color);
+        box-shadow: 0 4px 8px var(--hover-shadow);
+        transform: translateY(-2px);
+        outline: none;
+      }
+      /* Responsive styles for small screens */
+      @media (max-width: 600px) {
+        .custom-navbar {
+          padding: 0.75rem 1rem;
+        }
+        .custom-navbar ul {
+          flex-direction: column;
+        }
+        .custom-navbar li {
+          margin: 0.5rem 0;
+        }
+        .custom-navbar a {
+          padding: 0.75rem 1rem;
+        }
+      }
     </style>
   </head>
-  <body>
-    <h2>URL Path Separator - Expanded</h2>
-    <p>Paste URLs (one per line):</p>
-    <textarea id="urlInput" rows="8" placeholder="https://example.com/forums/thread1"></textarea>
-    <button onclick="separateUrls()" style="background:#4CAF50;">Separate URLs</button>
-    <button onclick="resetFields()" style="background:#d9534f; margin-left:10px;">Reset</button>
-    <br>
-    <button onclick="scrollToSection('profileSection')" style="background:#007BFF; margin-top:10px;">/Profile/</button>
-    <button onclick="scrollToSection('forumSection')" style="background:#007BFF; margin-top:10px;">/forum/</button>
-    <button onclick="scrollToSection('employerSection')" style="background:#007BFF; margin-top:10px;">/employer/</button>
-    <button onclick="scrollToSection('readblogSection')" style="background:#007BFF; margin-top:10px;">/read-blog/</button>
-    <button onclick="scrollToSection('otherSection')" style="background:#007BFF; margin-top:10px;">/other/</button>
-    <button onclick="scrollToSection('questionSection')" style="background:#007BFF; margin-top:10px;">/question/</button>
-    <button onclick="scrollToSection('communityProfileSection')" style="background:#007BFF; margin-top:10px;">/community/profile/</button>
-    <button onclick="scrollToSection('userSection')" style="background:#007BFF; margin-top:10px;">/user/</button>
-    <button onclick="scrollToSection('discussionsSection')" style="background:#007BFF; margin-top:10px;">/discussions/</button>
-    <button onclick="scrollToSection('uSection')" style="background:#007BFF; margin-top:10px;">/u/</button>
-    <button onclick="scrollToSection('snippetsSection')" style="background:#007BFF; margin-top:10px;">/snippets/</button>
-    <button onclick="scrollToSection('issuesSection')" style="background:#007BFF; margin-top:10px;">/issues/</button>
-    <button onclick="scrollToSection('projectsSection')" style="background:#007BFF; margin-top:10px;">-/projects</button>
-    <button onclick="scrollToSection('tabFieldCorePfieldSection')" style="background:#007BFF; margin-top:10px;">?tab=field_core_pfield</button>
-    <button onclick="scrollToSection('peopleSection')" style="background:#007BFF; margin-top:10px;">/people/</button>
-    <button onclick="scrollToSection('ideasSection')" style="background:#007BFF; margin-top:10px;">/ideas/</button>
-    <button onclick="scrollToSection('boardSection')" style="background:#007BFF; margin-top:10px;">/board/board_topic/</button>
-    <button onclick="scrollToSection('forumThreadSection')" style="background:#007BFF; margin-top:10px;">/forum/thread/</button>
-    <button onclick="scrollToSection('blogsSection')" style="background:#007BFF; margin-top:10px;">/blogs/</button>
-    <button onclick="scrollToSection('listingSection')" style="background:#007BFF; margin-top:10px;">/listing/</button>
-    <button onclick="scrollToSection('mysiteGroupSection')" style="background:#007BFF; margin-top:10px;">mysite-200-group</button>
-    <button onclick="scrollToSection('groupSection')" style="background:#007BFF; margin-top:10px;">/group/</button>
-    <button onclick="scrollToSection('forumsTopicSection')" style="background:#007BFF; margin-top:10px;">/forums/topic/</button>
-    <button onclick="scrollToSection('mncoPostsSection')" style="background:#007BFF; margin-top:10px;">/mn.co/posts/</button>
-    <button onclick="scrollToSection('memberSection')" style="background:#007BFF; margin-top:10px;">/member/</button>
-    <button onclick="scrollToSection('candidateSection')" style="background:#007BFF; margin-top:10px;">/candidate/</button>
-    <button onclick="scrollToSection('authorSection')" style="background:#007BFF; margin-top:10px;">/author/</button>
-    <button onclick="scrollToSection('companySection')" style="background:#007BFF; margin-top:10px;">/company/</button>
-    <button onclick="scrollToSection('companiesSection')" style="background:#007BFF; margin-top:10px;">/companies/</button>
-    <button onclick="scrollToSection('forumsUsersSection')" style="background:#007BFF; margin-top:10px;">/forums/users/</button>
-    <button onclick="scrollToSection('classifiedsSection')" style="background:#007BFF; margin-top:10px;">/classifieds/</button>
-    <button onclick="scrollToSection('adsSection')" style="background:#007BFF; margin-top:10px;">/ads/</button>
-    <button onclick="scrollToSection('users2Section')" style="background:#007BFF; margin-top:10px;">/users/</button>
-    <button onclick="scrollToSection('member2Section')" style="background:#007BFF; margin-top:10px;">/members/</button>
-    <button onclick="scrollToSection('topicSection')" style="background:#007BFF; margin-top:10px;">/topic/</button>
-    <button onclick="scrollToSection('servicesSection')" style="background:#007BFF; margin-top:10px;">/services/</button>
-    <button onclick="scrollToSection('discussSection')" style="background:#007BFF; margin-top:10px;">/discuss/</button>
-    <button onclick="scrollToSection('profile2Section')" style="background:#007BFF; margin-top:10px;">/profiles/</button>
-    <button onclick="scrollToSection('employer2Section')" style="background:#007BFF; margin-top:10px;">/employers/</button>
 
-    <!-- Existing categories -->
-    <div id="profileSection" class="container">
-      <h3>/Profile/</h3>
-      <div id="profileUrls">No URLs</div>
-    </div>
-    <div id="forumSection" class="container">
-      <h3>/forum/</h3>
-      <div id="forumUrls">No URLs</div>
-    </div>
-    <div id="employerSection" class="container">
-      <h3>/employer/</h3>
-      <div id="employerUrls">No URLs</div>
-    </div>
-    <div id="readblogSection" class="container">
-      <h3>/read-blog/</h3>
-      <div id="readblogUrls">No URLs</div>
-    </div>
-    <div id="otherSection" class="container">
-      <h3>/other/</h3>
-      <div id="otherUrls">No URLs</div>
-    </div>
+  <!-- Navigation Bar Component -->
+  <nav role="navigation" aria-label="Main Navigation" class="custom-navbar">
+    <ul>
+      <li><a href="#hero" aria-label="Home section">Home</a></li>
+      <li><a href="#seo-tools" aria-label="SEO Tools section">SEO Tools</a></li>
+      <li><a href="#resource-tools" aria-label="Coding Resources section">Resource</a></li>
+      <li><a href="#contact" aria-label="Contact section">Contact</a></li>
+    </ul>
+  </nav>
 
-    <!-- New categories for the 26 paths -->
-    <div id="questionSection" class="container">
-      <h3>/question/</h3>
-      <div id="questionUrls">No URLs</div>
+  <!-- Intro overlay with logos -->
+  <div id="introOverlay">
+    <div class="logo-container">
+      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" alt="HTML Logo" class="logo" />
+      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" alt="CSS Logo" class="logo" />
+      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="JavaScript Logo" class="logo" />
+      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React Logo" class="logo" />
     </div>
-    <div id="communityProfileSection" class="container">
-      <h3>/community/profile/</h3>
-      <div id="communityProfileUrls">No URLs</div>
+  </div>
+
+  <!-- Your main tool content -->
+  <div id="mainTool">
+    <body>
+      <h2>URL Path Separator</h2>
+      <p>Paste URLs (one per line):</p>
+      <textarea id="urlInput" rows="8" placeholder="https://example.com/forums/thread1"></textarea>
+      <button onclick="separateUrls()" style="background:#FF6500;">Separate URLs</button>
+      <button id="downloadBtn" style="background:#06923E; margin-left:10px;" onclick="downloadResult()">Download Result</button>
+      <button onclick="resetFields()" style="background:#CD1818; margin-left:10px;">Reset</button>
+      <br>
+      </button>
+      <button id="forumButton" data-base-label="/forum/" onclick="scrollToSection('forumSection')" style="background:#02343F; margin-top:10px;">
+        /forum/
+      </button>
+      <button id="profileButton" data-base-label="/profile/" onclick="scrollToSection('profileSection')" style="background:#02343F; margin-top:10px;">
+        /profile/
+      </button>
+      <button id="employerButton" data-base-label="/employer/" onclick="scrollToSection('employerSection')" style="background:#02343F; margin-top:10px;">
+        /employer/
+      </button>
+      <button id="readblogButton" data-base-label="/read-blog/" onclick="scrollToSection('readblogSection')" style="background:#02343F; margin-top:10px;">
+        /read-blog/
+      </button>
+      <button id="otherButton" data-base-label="/other/" onclick="scrollToSection('otherSection')" style="background:#02343F; margin-top:10px;">
+        /other/
+      </button>
+      <button id="questionButton" data-base-label="/question/" onclick="scrollToSection('questionSection')" style="background:#02343F; margin-top:10px;">
+        /question/
+      </button>
+      <button id="communityProfileButton" data-base-label="/communityProfile/" onclick="scrollToSection('communityProfileSection')" style="background:#02343F; margin-top:10px;">
+        /community/profile/
+      </button>
+      <button id="userButton" data-base-label="/user/" onclick="scrollToSection('userSection')" style="background:#02343F; margin-top:10px;">
+        /user/
+      </button>
+      <button id="discussionsButton" data-base-label="/discussions/" onclick="scrollToSection('discussionsSection')" style="background:#02343F; margin-top:10px;">
+        /discussions/
+      </button>
+      <button id="uButton" data-base-label="/u/" onclick="scrollToSection('uSection')" style="background:#02343F; margin-top:10px;">
+        /u/
+      </button>
+      <button id="snippetsButton" data-base-label="/snippets/" onclick="scrollToSection('uSection')" style="background:#02343F; margin-top:10px;">
+        /snippets/
+      </button>
+      <button id="issuesButton" data-base-label="/issues/" onclick="scrollToSection('issuesSection')" style="background:#02343F; margin-top:10px;">
+        /issues/
+      </button>
+      <button id="projectsButton" data-base-label="-/projects" onclick="scrollToSection('projectsSection')" style="background:#02343F; margin-top:10px;">
+        -/projects
+      </button>
+      <button id="tabFieldCorePfieldButton" data-base-label="?tab=field_core_pfield" onclick="scrollToSection('tabFieldCorePfieldSection')" style="background:#02343F; margin-top:10px;">
+        ?tab=field_core_pfield
+      </button>
+      <button id="peopleButton" data-base-label="/people/" onclick="scrollToSection('peopleSection')" style="background:#02343F; margin-top:10px;">
+        /people/
+      </button>
+      <button id="ideasButton" data-base-label="/ideas/" onclick="scrollToSection('ideasSection')" style="background:#02343F; margin-top:10px;">
+        /ideas/
+      </button>
+      <button id="boardButton" data-base-label="/board/board_topic/" onclick="scrollToSection('boardSection')" style="background:#02343F; margin-top:10px;">
+        /board/board_topic/
+      </button>
+      <button id="forumThreadButton" data-base-label="/forum/thread/" onclick="scrollToSection('forumThreadSection')" style="background:#02343F; margin-top:10px;">
+        /forum/thread/
+      </button>
+      <button id="blogsButton" data-base-label="/blogs/" onclick="scrollToSection('blogsSection')" style="background:#02343F; margin-top:10px;">
+        /blogs/
+      </button>
+      <button id="listingButton" data-base-label="/listing/" onclick="scrollToSection('listingSection')" style="background:#02343F; margin-top:10px;">
+        /listing/
+      </button>
+      <button id="mysiteGroupButton" data-base-label="/mysite-200-group/" onclick="scrollToSection('mysiteGroupSection')" style="background:#02343F; margin-top:10px;">
+        mysite-200-group
+      </button>
+      <button id="groupButton" data-base-label="/group/" onclick="scrollToSection('groupSection')" style="background:#02343F; margin-top:10px;">
+        /group/
+      </button>
+      <button id="forumsTopicButton" data-base-label="/forums/topic/" onclick="scrollToSection('forumsTopicSection')" style="background:#02343F; margin-top:10px;">
+        /forums/topic/
+      </button>
+      <button id="mncoPostsButton" data-base-label="mn.co/posts/" onclick="scrollToSection('mncoPostsSection')" style="background:#02343F; margin-top:10px;">
+        mn.co/posts/
+      </button>
+      <button id="memberButton" data-base-label="/member/" onclick="scrollToSection('memberSection')" style="background:#02343F; margin-top:10px;">
+        /member/
+      </button>
+      <button id="candidateButton" data-base-label="/candidate/" onclick="scrollToSection('candidateSection')" style="background:#02343F; margin-top:10px;">
+        /candidate/
+      </button>
+      <button id="authorButton" data-base-label="/author/" onclick="scrollToSection('authorSection')" style="background:#02343F; margin-top:10px;">
+        /author/
+      </button>
+      <button id="companyButton" data-base-label="/company/" onclick="scrollToSection('companySection')" style="background:#02343F; margin-top:10px;">
+        /company/
+      </button>
+      <button id="companiesButton" data-base-label="/companies/" onclick="scrollToSection('companiesSection')" style="background:#02343F; margin-top:10px;">
+        /companies/
+      </button>
+      <button id="forumsUsersButton" data-base-label="/forums/users/" onclick="scrollToSection('forumsUsersSection')" style="background:#02343F; margin-top:10px;">
+        /forums/users/
+      </button>
+      <button id="classifiedsButton" data-base-label="/classifieds/" onclick="scrollToSection('classifiedsSection')" style="background:#02343F; margin-top:10px;">
+        /classifieds/
+      </button>
+      <button id="adsButton" data-base-label="/ads/" onclick="scrollToSection('adsSection')" style="background:#02343F; margin-top:10px;">
+        /ads/
+      </button>
+      <button id="users2Button" data-base-label="/users/" onclick="scrollToSection('users2Section')" style="background:#02343F; margin-top:10px;">
+        /users/
+      </button>
+      <button id="member2Button" data-base-label="/members/" onclick="scrollToSection('member2Section')" style="background:#02343F; margin-top:10px;">
+        /members/
+      </button>
+      <button id="topicButton" data-base-label="/topic/" onclick="scrollToSection('topicSection')" style="background:#02343F; margin-top:10px;">
+        /topic/
+      </button>
+      <button id="servicesButton" data-base-label="/services/" onclick="scrollToSection('servicesSection')" style="background:#02343F; margin-top:10px;">
+        /services/
+      </button>
+      <button id="discussButton" data-base-label="/discuss/" onclick="scrollToSection('discussSection')" style="background:#02343F; margin-top:10px;">
+        /discuss/
+      </button>
+      <button id="profile2Button" data-base-label="/profiles/" onclick="scrollToSection('profile2Section')" style="background:#02343F; margin-top:10px;">
+        /profiles/
+      </button>
+      <button id="employer2Button" data-base-label="/employers/" onclick="scrollToSection('employer2Section')" style="background:#02343F; margin-top:10px;">
+        /employers/
+      </button>
+      <button id="wikiButton" data-base-label="/wiki/" onclick="scrollToSection('wikiSection')" style="background:#02343F; margin-top:10px;">
+        /wiki/
+      </button>
+      <button id="postsButton" data-base-label="/posts/" onclick="scrollToSection('postsSection')" style="background:#02343F; margin-top:10px;">
+        /posts/
+      </button>
+      <button id="pButton" data-base-label="/p/" onclick="scrollToSection('pSection')" style="background:#02343F; margin-top:10px;">
+        /p/
+      </button>
+      <button id="pageButton" data-base-label="/page/" onclick="scrollToSection('pageSection')" style="background:#02343F; margin-top:10px;">
+        /page/
+      </button>
+      <button id="atSignButton" data-base-label="/@" onclick="scrollToSection('@Section')" style="background:#02343F; margin-top:10px;">
+        /@
+      </button>
+      <button id="mediaButton" data-base-label="/media/" onclick="scrollToSection('mediaSection')" style="background:#02343F; margin-top:10px;">
+        /media/
+      </button>
+      <button id="webPageButton" data-base-label="/webpage/" onclick="scrollToSection('webPageSection')" style="background:#02343F; margin-top:10px;">
+        /webpage/
+      </button>
+      <button id="blogButton" data-base-label="/blog/" onclick="scrollToSection('blogSection')" style="background:#02343F; margin-top:10px;">
+        /blog/
+      </button>
+      <button id="ideaButton" data-base-label="/idea/" onclick="scrollToSection('ideaSection')" style="background:#02343F; margin-top:10px;">
+        /idea/
+      </button>
+      <button id="forumsButton" data-base-label="/forums/" onclick="scrollToSection('forumsSection')" style="background:#02343F; margin-top:10px;">
+        /forums/
+      </button>
+      <button id="guestbookHtmlButton" data-base-label="/guestbook.html/" onclick="scrollToSection('guestbookHtmlSection')" style="background:#02343F; margin-top:10px;">
+        /guestbook.html
+      </button>
+      </button>
+      <button id="viewtopicButton" data-base-label="/viewtopic." onclick="scrollToSection('viewtopicSection')" style="background:#02343F; margin-top:10px;">
+        /viewtopic.
+      </button>
+
+      <!-- Existing categories -->
+      <div id="profileSection" class="container">
+        <h3>/Profile/</h3>
+        <button class="copy-button" onclick="copyToClipboard('profileUrls')">Copy URLs</button>
+        <div id="profileUrls">No URLs</div>
+      </div>
+      <div id="forumSection" class="container">
+        <h3>/forum/</h3>
+        <button class="copy-button" onclick="copyToClipboard('forumUrls')">Copy URLs</button>
+        <div id="forumUrls">No URLs</div>
+      </div>
+      <div id="employerSection" class="container">
+        <h3>/employer/</h3>
+        <button class="copy-button" onclick="copyToClipboard('employerUrls')">Copy URLs</button>
+        <div id="employerUrls">No URLs</div>
+      </div>
+      <div id="readblogSection" class="container">
+        <button class="copy-button" onclick="copyToClipboard('readblogUrls')">Copy URLs</button>
+        <h3>/read-blog/</h3>
+        <div id="readblogUrls">No URLs</div>
+      </div>
+      <div id="otherSection" class="container">
+        <button class="copy-button" onclick="copyToClipboard('otherUrls')">Copy URLs</button>
+        <h3>/other/</h3>
+        <div id="otherUrls">No URLs</div>
+      </div>
+
+      <!-- New categories for the 26 paths -->
+      <div id="questionSection" class="container">
+        <h3>/question/</h3>
+        <button class="copy-button" onclick="copyToClipboard('questionUrls')">Copy URLs</button>
+        <div id="questionUrls">No URLs</div>
+      </div>
+      <div id="communityProfileSection" class="container">
+        <h3>/community/profile/</h3>
+        <button class="copy-button" onclick="copyToClipboard('communityProfileUrls')">Copy URLs</button>
+        <div id="communityProfileUrls">No URLs</div>
+      </div>
+      <div id="userSection" class="container">
+        <button class="copy-button" onclick="copyToClipboard('userUrls')">Copy URLs</button>
+        <h3>/user/</h3>
+        <div id="userUrls">No URLs</div>
+      </div>
+      <div id="discussionsSection" class="container">
+        <h3>/discussions/</h3>
+        <button class="copy-button" onclick="copyToClipboard('discussionsUrls')">Copy URLs</button>
+        <div id="discussionsUrls">No URLs</div>
+      </div>
+      <div id="uSection" class="container">
+        <h3>/u/</h3>
+        <button class="copy-button" onclick="copyToClipboard('uUrls')">Copy URLs</button>
+        <div id="uUrls">No URLs</div>
+      </div>
+      <div id="snippetsSection" class="container">
+        <h3>/snippets/</h3>
+        <button class="copy-button" onclick="copyToClipboard('snippetsUrls')">Copy URLs</button>
+        <div id="snippetsUrls">No URLs</div>
+      </div>
+      <div id="issuesSection" class="container">
+        <h3>/issues/</h3>
+        <button class="copy-button" onclick="copyToClipboard('issuesUrls')">Copy URLs</button>
+        <div id="issuesUrls">No URLs</div>
+      </div>
+      <div id="projectsSection" class="container">
+        <h3>-/projects</h3>
+        <button class="copy-button" onclick="copyToClipboard('projectsUrls')">Copy URLs</button>
+        <div id="projectsUrls">No URLs</div>
+      </div>
+      <div id="tabFieldCorePfieldSection" class="container">
+        <h3>?tab=field_core_pfield</h3>
+        <button class="copy-button" onclick="copyToClipboard('tabFieldCorePfieldUrls')">Copy URLs</button>
+        <div id="tabFieldCorePfieldUrls">No URLs</div>
+      </div>
+      <div id="peopleSection" class="container">
+        <h3>/people/</h3>
+        <button class="copy-button" onclick="copyToClipboard('peopleUrls')">Copy URLs</button>
+        <div id="peopleUrls">No URLs</div>
+      </div>
+      <div id="ideasSection" class="container">
+        <h3>/ideas/</h3>
+        <button class="copy-button" onclick="copyToClipboard('ideasUrls')">Copy URLs</button>
+        <div id="ideasUrls">No URLs</div>
+      </div>
+      <div id="boardSection" class="container">
+        <h3>/board/board_topic/</h3>
+        <button class="copy-button" onclick="copyToClipboard('boardUrls')">Copy URLs</button>
+        <div id="boardUrls">No URLs</div>
+      </div>
+      <div id="forumThreadSection" class="container">
+        <h3>/forum/thread/</h3>
+        <button class="copy-button" onclick="copyToClipboard('forumThreadUrls')">Copy URLs</button>
+        <div id="forumThreadUrls">No URLs</div>
+      </div>
+      <div id="blogsSection" class="container">
+        <h3>/blogs/</h3>
+        <button class="copy-button" onclick="copyToClipboard('blogsUrls')">Copy URLs</button>
+        <div id="blogsUrls">No URLs</div>
+      </div>
+      <div id="listingSection" class="container">
+        <h3>/listing/</h3>
+        <button class="copy-button" onclick="copyToClipboard('listingUrls')">Copy URLs</button>
+        <div id="listingUrls">No URLs</div>
+      </div>
+      <div id="mysiteGroupSection" class="container">
+        <h3>mysite-200-group</h3>
+        <button class="copy-button" onclick="copyToClipboard('mysiteGroupUrls')">Copy URLs</button>
+        <div id="mysiteGroupUrls">No URLs</div>
+      </div>
+      <div id="groupSection" class="container">
+        <h3>/group/</h3>
+        <button class="copy-button" onclick="copyToClipboard('groupUrls')">Copy URLs</button>
+        <div id="groupUrls">No URLs</div>
+      </div>
+      <div id="forumsTopicSection" class="container">
+        <h3>/forums/topic/</h3>
+        <button class="copy-button" onclick="copyToClipboard('forumsTopicUrls')">Copy URLs</button>
+        <div id="forumsTopicUrls">No URLs</div>
+      </div>
+      <div id="mncoPostsSection" class="container">
+        <h3>mn.co/posts/</h3>
+        <button class="copy-button" onclick="copyToClipboard('mncoPostsUrls')">Copy URLs</button>
+        <div id="mncoPostsUrls">No URLs</div>
+      </div>
+      <div id="memberSection" class="container">
+        <h3>/member/</h3>
+        <button class="copy-button" onclick="copyToClipboard('memberUrls')">Copy URLs</button>
+        <div id="memberUrls">No URLs</div>
+      </div>
+      <div id="candidateSection" class="container">
+        <h3>/candidate/</h3>
+        <button class="copy-button" onclick="copyToClipboard('candidateUrls')">Copy URLs</button>
+        <div id="candidateUrls">No URLs</div>
+      </div>
+      <div id="authorSection" class="container">
+        <h3>/author/</h3>
+        <button class="copy-button" onclick="copyToClipboard('authorUrls')">Copy URLs</button>
+        <div id="authorUrls">No URLs</div>
+      </div>
+      <div id="companySection" class="container">
+        <h3>/company/</h3>
+        <button class="copy-button" onclick="copyToClipboard('companyUrls')">Copy URLs</button>
+        <div id="companyUrls">No URLs</div>
+      </div>
+      <div id="companiesSection" class="container">
+        <h3>/companies/</h3>
+        <button class="copy-button" onclick="copyToClipboard('companiesUrls')">Copy URLs</button>
+        <div id="companiesUrls">No URLs</div>
+      </div>
+      <div id="forumsUsersSection" class="container">
+        <h3>/forums/users/</h3>
+        <button class="copy-button" onclick="copyToClipboard('forumsUsersUrls')">Copy URLs</button>
+        <div id="forumsUsersUrls">No URLs</div>
+      </div>
+      <div id="classifiedsSection" class="container">
+        <h3>/classifieds/</h3>
+        <button class="copy-button" onclick="copyToClipboard('classifiedsUrls')">Copy URLs</button>
+        <div id="classifiedsUrls">No URLs</div>
+      </div>
+      <div id="adsSection" class="container">
+        <h3>/ads/</h3>
+        <button class="copy-button" onclick="copyToClipboard('adsUrls')">Copy URLs</button>
+        <div id="adsUrls">No URLs</div>
+      </div>
+      <div id="users2Section" class="container">
+        <h3>/users/</h3>
+        <button class="copy-button" onclick="copyToClipboard('users2Urls')">Copy URLs</button>
+        <div id="users2Urls">No URLs</div>
+      </div>
+      <div id="member2Section" class="container">
+        <h3>/members/</h3>
+        <button class="copy-button" onclick="copyToClipboard('member2Urls')">Copy URLs</button>
+        <div id="member2Urls">No URLs</div>
+      </div>
+      <div id="topicSection" class="container">
+        <h3>/topic/</h3>
+        <button class="copy-button" onclick="copyToClipboard('topicUrls')">Copy URLs</button>
+        <div id="topicUrls">No URLs</div>
+      </div>
+      <div id="servicesSection" class="container">
+        <h3>/services/</h3>
+        <button class="copy-button" onclick="copyToClipboard('servicesUrls')">Copy URLs</button>
+        <div id="servicesUrls">No URLs</div>
+      </div>
+      <div id="discussSection" class="container">
+        <h3>/discuss/</h3>
+        <button class="copy-button" onclick="copyToClipboard('discussUrls')">Copy URLs</button>
+        <div id="discussUrls">No URLs</div>
+      </div>
+      <div id="profile2Section" class="container">
+        <h3>/profiles/</h3>
+        <button class="copy-button" onclick="copyToClipboard('profile2Urls')">Copy URLs</button>
+        <div id="profile2Urls">No URLs</div>
+      </div>
+      <div id="employer2Section" class="container">
+        <h3>/employers/</h3>
+        <button class="copy-button" onclick="copyToClipboard('employer2Urls')">Copy URLs</button>
+        <div id="employer2Urls">No URLs</div>
+      </div>
+      <div id="wikiSection" class="container">
+        <h3>/wiki/</h3>
+        <button class="copy-button" onclick="copyToClipboard('wikiUrls')">Copy URLs</button>
+        <div id="wikiUrls">No URLs</div>
+      </div>
+      <div id="postsSection" class="container">
+        <h3>/posts/</h3>
+        <button class="copy-button" onclick="copyToClipboard('postsUrls')">Copy URLs</button>
+        <div id="postsUrls">No URLs</div>
+      </div>
+      <div id="pSection" class="container">
+        <h3>/p/</h3>
+        <button class="copy-button" onclick="copyToClipboard('pUrls')">Copy URLs</button>
+        <div id="pUrls">No URLs</div>
+      </div>
+      <div id="pageSection" class="container">
+        <h3>/page/</h3>
+        <button class="copy-button" onclick="copyToClipboard('pageUrls')">Copy URLs</button>
+        <div id="pageUrls">No URLs</div>
+      </div>
+      <div id="@Section" class="container">
+        <h3>/@</h3>
+        <button class="copy-button" onclick="copyToClipboard('atSignUrls')">Copy URLs</button>
+        <div id="atSignUrls">No URLs</div>
+      </div>
+      <div id="mediaSection" class="container">
+        <h3>Media</h3>
+        <button class="copy-button" onclick="copyToClipboard('mediaUrls')">Copy URLs</button>
+        <div id="mediaUrls">No URLs</div>
+      </div>
+      <div id="webPageSection" class="container">
+        <h3>/Webpage/</h3>
+        <button class="copy-button" onclick="copyToClipboard('webPageUrls')">Copy URLs</button>
+        <div id="webPageUrls">No URLs</div>
+      </div>
+      <div id="blogSection" class="container">
+        <h3>/blog/</h3>
+        <button class="copy-button" onclick="copyToClipboard('blogUrls')">Copy URLs</button>
+        <div id="blogUrls">No URLs</div>
+      </div>
+      <div id="ideaSection" class="container">
+        <h3>/idea/</h3>
+        <button class="copy-button" onclick="copyToClipboard('ideaUrls')">Copy URLs</button>
+        <div id="ideaUrls">No URLs</div>
+      </div>
+      <div id="forumsSection" class="container">
+        <h3>/forums/</h3>
+        <button class="copy-button" onclick="copyToClipboard('forumsUrls')">Copy URLs</button>
+        <div id="forumsUrls">No URLs</div>
+      </div>
+      <div id="guestbookHtmlSection" class="container">
+        <h3>/guestbook.html</h3>
+        <button class="copy-button" onclick="copyToClipboard('guestbookHtmlUrls')">Copy URLs</button>
+        <div id="guestbookHtmlUrls">No URLs</div>
+      </div>
+      <div id="viewtopicSection" class="container">
+        <h3>/viewtopic.</h3>
+        <button class="copy-button" onclick="copyToClipboard('viewtopicUrls')">Copy URLs</button>
+        <div id="viewtopicUrls">No URLs</div>
+      </div>
+  </div>
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <p>Email: shakeeb.sa.ahmed@gmail.com</p>
+        <p>Github: <a href="https://github.com/shakeeb-sa/" target="_blank" rel="noopener noreferrer">https://github.com/shakeeb-sa/</a></p>
+        <p>LinkedIn: <a href="https://pk.linkedin.com/in/shakeeb-ahmed-034093370" target="_blank" rel="noopener noreferrer">https://pk.linkedin.com/in/shakeeb-ahmed-034093370</a></p>
+      </div>
     </div>
-    <div id="userSection" class="container">
-      <h3>/user/</h3>
-      <div id="userUrls">No URLs</div>
-    </div>
-    <div id="discussionsSection" class="container">
-      <h3>/discussions/</h3>
-      <div id="discussionsUrls">No URLs</div>
-    </div>
-    <div id="uSection" class="container">
-      <h3>/u/</h3>
-      <div id="uUrls">No URLs</div>
-    </div>
-    <div id="snippetsSection" class="container">
-      <h3>/snippets/</h3>
-      <div id="snippetsUrls">No URLs</div>
-    </div>
-    <div id="issuesSection" class="container">
-      <h3>/issues/</h3>
-      <div id="issuesUrls">No URLs</div>
-    </div>
-    <div id="projectsSection" class="container">
-      <h3>-/projects</h3>
-      <div id="projectsUrls">No URLs</div>
-    </div>
-    <div id="tabFieldCorePfieldSection" class="container">
-      <h3>?tab=field_core_pfield</h3>
-      <div id="tabFieldCorePfieldUrls">No URLs</div>
-    </div>
-    <div id="peopleSection" class="container">
-      <h3>/people/</h3>
-      <div id="peopleUrls">No URLs</div>
-    </div>
-    <div id="ideasSection" class="container">
-      <h3>/ideas/</h3>
-      <div id="ideasUrls">No URLs</div>
-    </div>
-    <div id="boardSection" class="container">
-      <h3>/board/board_topic/</h3>
-      <div id="boardUrls">No URLs</div>
-    </div>
-    <div id="forumThreadSection" class="container">
-      <h3>/forum/thread/</h3>
-      <div id="forumThreadUrls">No URLs</div>
-    </div>
-    <div id="blogsSection" class="container">
-      <h3>/blogs/</h3>
-      <div id="blogsUrls">No URLs</div>
-    </div>
-    <div id="listingSection" class="container">
-      <h3>/listing/</h3>
-      <div id="listingUrls">No URLs</div>
-    </div>
-    <div id="mysiteGroupSection" class="container">
-      <h3>mysite-200-group</h3>
-      <div id="mysiteGroupUrls">No URLs</div>
-    </div>
-    <div id="groupSection" class="container">
-      <h3>/group/</h3>
-      <div id="groupUrls">No URLs</div>
-    </div>
-    <div id="forumsTopicSection" class="container">
-      <h3>/forums/topic/</h3>
-      <div id="forumsTopicUrls">No URLs</div>
-    </div>
-    <div id="mncoPostsSection" class="container">
-      <h3>/mn.co/posts/</h3>
-      <div id="mncoPostsUrls">No URLs</div>
-    </div>
-    <div id="memberSection" class="container">
-      <h3>/member/</h3>
-      <div id="memberUrls">No URLs</div>
-    </div>
-    <div id="candidateSection" class="container">
-      <h3>/candidate/</h3>
-      <div id="candidateUrls">No URLs</div>
-    </div>
-    <div id="authorSection" class="container">
-      <h3>/author/</h3>
-      <div id="authorUrls">No URLs</div>
-    </div>
-    <div id="companySection" class="container">
-      <h3>/company/</h3>
-      <div id="companyUrls">No URLs</div>
-    </div>
-    <div id="companiesSection" class="container">
-      <h3>/companies/</h3>
-      <div id="companiesUrls">No URLs</div>
-    </div>
-    <div id="forumsUsersSection" class="container">
-      <h3>/forums/users/</h3>
-      <div id="forumsUsersUrls">No URLs</div>
-    </div>
-    <div id="classifiedsSection" class="container">
-      <h3>/classifieds/</h3>
-      <div id="classifiedsUrls">No URLs</div>
-    </div>
-    <div id="adsSection" class="container">
-      <h3>/ads/</h3>
-      <div id="adsUrls">No URLs</div>
-    </div>
-    <div id="users2Section" class="container">
-      <h3>/users/</h3>
-      <div id="users2Urls">No URLs</div>
-    </div>
-    <div id="member2Section" class="container">
-      <h3>/members/</h3>
-      <div id="member2Urls">No URLs</div>
-    </div>
-    <div id="topicSection" class="container">
-      <h3>/topic/</h3>
-      <div id="topicUrls">No URLs</div>
-    </div>
-    <div id="servicesSection" class="container">
-      <h3>/services/</h3>
-      <div id="servicesUrls">No URLs</div>
-    </div>
-    <div id="discussSection" class="container">
-      <h3>/discuss/</h3>
-      <div id="discussUrls">No URLs</div>
-    </div>
-    <div id="profile2Section" class="container">
-      <h3>/profiles/</h3>
-      <div id="profile2Urls">No URLs</div>
-    </div>
-    <div id="employer2Section" class="container">
-      <h3>/employers/</h3>
-      <div id="employer2Urls">No URLs</div>
-    </div>
-    <script>
-      function separateUrls() {
-        let urls = document.getElementById('urlInput').value.trim().split(/\r?\n/);
-        // Initialize arrays for all categories
-        let categories = {
-          profile: [],
-          forum: [],
-          employer: [],
-          readblog: [],
-          other: [],
-          question: [],
-          communityProfile: [],
-          user: [],
-          discussions: [],
-          u: [],
-          snippets: [],
-          issues: [],
-          projects: [],
-          tabFieldCorePfield: [],
-          people: [],
-          ideas: [],
-          board: [],
-          forumThread: [],
-          blogs: [],
-          listing: [],
-          mysiteGroup: [],
-          group: [],
-          forumsTopic: [],
-          mncoPosts: [],
-          member: [],
-          candidate: [],
-          author: [],
-          company: [],
-          companies: [],
-          forumsUsers: [],
-          classifieds: [],
-          ads: [],
-          users2: [],
-          member2: [],
-          topic: [],
-          services: [],
-          discuss: [],
-          profile2: [],
-          employer2: [],
-        };
-        // Loop through URLs and categorize
-        urls.forEach(url => {
-          let lowerUrl = url.toLowerCase();
-          if (lowerUrl.includes("/profile/")) {
-            categories.profile.push(url);
-          } else if (lowerUrl.includes("/forum/")) {
-            categories.forum.push(url);
-          } else if (lowerUrl.includes("/employer/")) {
-            categories.employer.push(url);
-          } else if (lowerUrl.includes("/read-blog/")) {
-            categories.readblog.push(url);
-          } else if (lowerUrl.includes("/question/")) {
-            categories.question.push(url);
-          } else if (lowerUrl.includes("/community/profile/")) {
-            categories.communityProfile.push(url);
-          } else if (lowerUrl.includes("/user/")) {
-            categories.user.push(url);
-          } else if (lowerUrl.includes("/discussions/")) {
-            categories.discussions.push(url);
-          } else if (lowerUrl.includes("/u/")) {
-            categories.u.push(url);
-          } else if (lowerUrl.includes("/snippets/")) {
-            categories.snippets.push(url);
-          } else if (lowerUrl.includes("/issues/")) {
-            categories.issues.push(url);
-          } else if (lowerUrl.includes("-/projects")) {
-            categories.projects.push(url);
-          } else if (lowerUrl.includes("?tab=field_core_pfield")) {
-            categories.tabFieldCorePfield.push(url);
-          } else if (lowerUrl.includes("/people/")) {
-            categories.people.push(url);
-          } else if (lowerUrl.includes("/ideas/")) {
-            categories.ideas.push(url);
-          } else if (lowerUrl.includes("/board/board_topic/")) {
-            categories.board.push(url);
-          } else if (lowerUrl.includes("/forum/thread/")) {
-            categories.forumThread.push(url);
-          } else if (lowerUrl.includes("/blogs/")) {
-            categories.blogs.push(url);
-          } else if (lowerUrl.includes("/listing/")) {
-            categories.listing.push(url);
-          } else if (lowerUrl.includes("mysite-200-group")) {
-            categories.mysiteGroup.push(url);
-          } else if (lowerUrl.includes("/group/")) {
-            categories.group.push(url);
-          } else if (lowerUrl.includes("/forums/topic/")) {
-            categories.forumsTopic.push(url);
-          } else if (lowerUrl.includes("/mn.co/posts/")) {
-            categories.mncoPosts.push(url);
-          } else if (lowerUrl.includes("/member/")) {
-            categories.member.push(url);
-          } else if (lowerUrl.includes("/candidate/")) {
-            categories.candidate.push(url);
-          } else if (lowerUrl.includes("/author/")) {
-            categories.author.push(url);
-          } else if (lowerUrl.includes("/company/")) {
-            categories.company.push(url);
-          } else if (lowerUrl.includes("/companies/")) {
-            categories.companies.push(url);
-          } else if (lowerUrl.includes("/forums/users/")) {
-            categories.forumsUsers.push(url);
-          } else if (lowerUrl.includes("/classifieds/")) {
-            categories.classifieds.push(url);
-          } else if (lowerUrl.includes("/ads/")) {
-            categories.ads.push(url);
-          } else if (lowerUrl.includes("/users/")) {
-            categories.users2.push(url);
-          } else if (lowerUrl.includes("/members/")) {
-            categories.member2.push(url);
-          } else if (lowerUrl.includes("/topic/")) {
-            categories.topic.push(url);
-          } else if (lowerUrl.includes("/services/")) {
-            categories.services.push(url);
-          } else if (lowerUrl.includes("/discuss/")) {
-            categories.discuss.push(url);
-          } else if (lowerUrl.includes("/profiles/")) {
-            categories.profile2.push(url);
-          } else if (lowerUrl.includes("/employers/")) {
-            categories.employer2.push(url);
-          } else {
-            categories.other.push(url);
-          }
-        });
-        // Helper to update DOM
-        function updateCategory(id, arr) {
-          document.getElementById(id).textContent = arr.length ? arr.join("\n") : "No URLs";
+    <p style="text-align:center; margin-top:1rem;">Created by Shakeeb Ahmed</p>
+  </footer>
+  <script>
+    function separateUrls() {
+      let urls = document.getElementById('urlInput').value.trim().split(/\r?\n/);
+      // Initialize arrays for all categories
+      let categories = {
+        profile: [],
+        forum: [],
+        employer: [],
+        readblog: [],
+        other: [],
+        question: [],
+        communityProfile: [],
+        user: [],
+        discussions: [],
+        u: [],
+        snippets: [],
+        issues: [],
+        projects: [],
+        tabFieldCorePfield: [],
+        people: [],
+        ideas: [],
+        board: [],
+        forumThread: [],
+        blogs: [],
+        listing: [],
+        mysiteGroup: [],
+        group: [],
+        forumsTopic: [],
+        mncoPosts: [],
+        member: [],
+        candidate: [],
+        author: [],
+        company: [],
+        companies: [],
+        forumsUsers: [],
+        classifieds: [],
+        ads: [],
+        users2: [],
+        member2: [],
+        topic: [],
+        services: [],
+        discuss: [],
+        profile2: [],
+        employer2: [],
+        wiki: [],
+        posts: [],
+        p: [],
+        page: [],
+        atSign: [],
+        media: [],
+        webPage: [],
+        blog: [],
+        idea: [],
+        forums: [],
+        guestbook: [],
+        viewtopic: [],
+      };
+      // Loop through URLs and categorize
+      urls.forEach(url => {
+        let lowerUrl = url.toLowerCase();
+        if (lowerUrl.includes("/profile/")) {
+          categories.profile.push(url);
+        } else if (lowerUrl.includes("/forum/")) {
+          categories.forum.push(url);
+        } else if (lowerUrl.includes("/employer/")) {
+          categories.employer.push(url);
+        } else if (lowerUrl.includes("/read-blog/")) {
+          categories.readblog.push(url);
+        } else if (lowerUrl.includes("/question/")) {
+          categories.question.push(url);
+        } else if (lowerUrl.includes("/community/profile/")) {
+          categories.communityProfile.push(url);
+        } else if (lowerUrl.includes("/user/")) {
+          categories.user.push(url);
+        } else if (lowerUrl.includes("/discussions/")) {
+          categories.discussions.push(url);
+        } else if (lowerUrl.includes("/u/")) {
+          categories.u.push(url);
+        } else if (lowerUrl.includes("/snippets/")) {
+          categories.snippets.push(url);
+        } else if (lowerUrl.includes("/issues/")) {
+          categories.issues.push(url);
+        } else if (lowerUrl.includes("-/projects")) {
+          categories.projects.push(url);
+        } else if (lowerUrl.includes("?tab=field_core_pfield")) {
+          categories.tabFieldCorePfield.push(url);
+        } else if (lowerUrl.includes("/people/")) {
+          categories.people.push(url);
+        } else if (lowerUrl.includes("/ideas/")) {
+          categories.ideas.push(url);
+        } else if (lowerUrl.includes("/board/board_topic/")) {
+          categories.board.push(url);
+        } else if (lowerUrl.includes("/forum/thread/")) {
+          categories.forumThread.push(url);
+        } else if (lowerUrl.includes("/blogs/")) {
+          categories.blogs.push(url);
+        } else if (lowerUrl.includes("/listing/")) {
+          categories.listing.push(url);
+        } else if (lowerUrl.includes("mysite-200-group")) {
+          categories.mysiteGroup.push(url);
+        } else if (lowerUrl.includes("/group/")) {
+          categories.group.push(url);
+        } else if (lowerUrl.includes("/forums/topic/")) {
+          categories.forumsTopic.push(url);
+        } else if (lowerUrl.includes("mn.co/posts/")) {
+          categories.mncoPosts.push(url);
+        } else if (lowerUrl.includes("/member/")) {
+          categories.member.push(url);
+        } else if (lowerUrl.includes("/candidate/")) {
+          categories.candidate.push(url);
+        } else if (lowerUrl.includes("/author/")) {
+          categories.author.push(url);
+        } else if (lowerUrl.includes("/company/")) {
+          categories.company.push(url);
+        } else if (lowerUrl.includes("/companies/")) {
+          categories.companies.push(url);
+        } else if (lowerUrl.includes("/forums/users/")) {
+          categories.forumsUsers.push(url);
+        } else if (lowerUrl.includes("/classifieds/")) {
+          categories.classifieds.push(url);
+        } else if (lowerUrl.includes("/ads/")) {
+          categories.ads.push(url);
+        } else if (lowerUrl.includes("/users/")) {
+          categories.users2.push(url);
+        } else if (lowerUrl.includes("/members/")) {
+          categories.member2.push(url);
+        } else if (lowerUrl.includes("/topic/")) {
+          categories.topic.push(url);
+        } else if (lowerUrl.includes("/services/")) {
+          categories.services.push(url);
+        } else if (lowerUrl.includes("/discuss/")) {
+          categories.discuss.push(url);
+        } else if (lowerUrl.includes("/profiles/")) {
+          categories.profile2.push(url);
+        } else if (lowerUrl.includes("/employers/")) {
+          categories.employer2.push(url);
+        } else if (lowerUrl.includes("/wiki/")) {
+          categories.wiki.push(url);
+        } else if (lowerUrl.includes("/posts/")) {
+          categories.posts.push(url);
+        } else if (lowerUrl.includes("/p/")) {
+          categories.p.push(url);
+        } else if (lowerUrl.includes("/page/")) {
+          categories.page.push(url);
+        } else if (lowerUrl.includes("/page/")) {
+          categories.page.push(url);
+        } else if (lowerUrl.includes("/@")) {
+          categories.atSign.push(url);
+        } else if (lowerUrl.includes("/media/")) {
+          categories.media.push(url);
+        } else if (lowerUrl.includes("/webpage/")) {
+          categories.webPage.push(url);
+        } else if (lowerUrl.includes("/blog/")) {
+          categories.blog.push(url);
+        } else if (lowerUrl.includes("/idea/")) {
+          categories.idea.push(url);
+        } else if (lowerUrl.includes("/forums/")) {
+          categories.forums.push(url);
+        } else if (lowerUrl.includes("/guestbook.html")) {
+          categories.guestbook.push(url);
+        } else if (lowerUrl.includes("/viewtopic.")) {
+          categories.viewtopic.push(url);
+        } else {
+          categories.other.push(url);
         }
-        // Update DOM for each category
-        updateCategory('profileUrls', categories.profile);
-        updateCategory('forumUrls', categories.forum);
-        updateCategory('employerUrls', categories.employer);
-        updateCategory('readblogUrls', categories.readblog);
-        updateCategory('otherUrls', categories.other);
-        updateCategory('questionUrls', categories.question);
-        updateCategory('communityProfileUrls', categories.communityProfile);
-        updateCategory('userUrls', categories.user);
-        updateCategory('discussionsUrls', categories.discussions);
-        updateCategory('uUrls', categories.u);
-        updateCategory('snippetsUrls', categories.snippets);
-        updateCategory('issuesUrls', categories.issues);
-        updateCategory('projectsUrls', categories.projects);
-        updateCategory('tabFieldCorePfieldUrls', categories.tabFieldCorePfield);
-        updateCategory('peopleUrls', categories.people);
-        updateCategory('ideasUrls', categories.ideas);
-        updateCategory('boardUrls', categories.board);
-        updateCategory('forumThreadUrls', categories.forumThread);
-        updateCategory('blogsUrls', categories.blogs);
-        updateCategory('listingUrls', categories.listing);
-        updateCategory('mysiteGroupUrls', categories.mysiteGroup);
-        updateCategory('groupUrls', categories.group);
-        updateCategory('forumsTopicUrls', categories.forumsTopic);
-        updateCategory('mncoPostsUrls', categories.mncoPosts);
-        updateCategory('memberUrls', categories.member);
-        updateCategory('candidateUrls', categories.candidate);
-        updateCategory('authorUrls', categories.author);
-        updateCategory('companyUrls', categories.company);
-        updateCategory('companiesUrls', categories.companies);
-        updateCategory('forumsUsersUrls', categories.forumsUsers);
-        updateCategory('classifiedsUrls', categories.classifieds);
-        updateCategory('adsUrls', categories.ads);
-        updateCategory('users2Urls', categories.users2);
-        updateCategory('member2Urls', categories.member2);
-        updateCategory('topicUrls', categories.topic);
-        updateCategory('servicesUrls', categories.services);
-        updateCategory('discussUrls', categories.discuss);
-        updateCategory('profile2Urls', categories.profile2);
-        updateCategory('employer2Urls', categories.employer2);
+      });
+      // Helper to update DOM
+      function updateCategory(id, arr) {
+        document.getElementById(id).textContent = arr.length ? arr.join("\n") : "No URLs";
       }
-      function resetFields() {
-        document.getElementById('urlInput').value = "";
-        // Reset all categories to "No URLs"
-        const ids = [
-          'profileUrls', 'forumUrls', 'employerUrls', 'readblogUrls', 'otherUrls',
-          'questionUrls', 'communityProfileUrls', 'userUrls', 'discussionsUrls',
-          'uUrls', 'snippetsUrls', 'issuesUrls', 'projectsUrls', 'tabFieldCorePfieldUrls',
-          'peopleUrls', 'ideasUrls', 'boardUrls', 'forumThreadUrls', 'blogsUrls',
-          'listingUrls', 'mysiteGroupUrls', 'groupUrls', 'forumsTopicUrls', 'mncoPostsUrls',
-          'memberUrls', 'candidateUrls', 'authorUrls', 'companyUrls', 'companiesUrls', 'forumsUsersUrls', 'classifiedsUrls', 'adsUrls', 'users2Urls', 'member2Urls', 'topicUrls',
-          'servicesUrls', 'discussUrls', 'profile2Urls', 'employer2Urls',
-        ];
-        ids.forEach(id => {
-          document.getElementById(id).textContent = "No URLs";
-        });
+      // Update DOM for each category
+      updateCategory('profileUrls', categories.profile);
+      updateButtonCountProfile()
+      updateCategory('forumUrls', categories.forum);
+      updateButtonCountForum();
+      updateCategory('employerUrls', categories.employer);
+      updateButtonCountEmployer();
+      updateCategory('readblogUrls', categories.readblog);
+      updateButtonCountReadblog()
+      updateCategory('otherUrls', categories.other);
+      updateButtonCountOther()
+      updateCategory('questionUrls', categories.question);
+      updateButtonCountQuestion();
+      updateCategory('communityProfileUrls', categories.communityProfile);
+      updateButtonCountCommunityProfile()
+      updateCategory('userUrls', categories.user);
+      updateButtonCountUser()
+      updateCategory('discussionsUrls', categories.discussions);
+      updateButtonCountDiscussions()
+      updateCategory('uUrls', categories.u);
+      updateButtonCountU()
+      updateCategory('snippetsUrls', categories.snippets);
+      updateButtonCountSnippets()
+      updateCategory('issuesUrls', categories.issues);
+      updateButtonCountIssues()
+      updateCategory('projectsUrls', categories.projects);
+      updateButtonCountProjects()
+      updateCategory('tabFieldCorePfieldUrls', categories.tabFieldCorePfield);
+      updateButtonCounttabFieldCorePfield()
+      updateCategory('peopleUrls', categories.people);
+      updateButtonCountPeople()
+      updateCategory('ideasUrls', categories.ideas);
+      updateButtonCountIdeas()
+      updateCategory('boardUrls', categories.board);
+      updateButtonCountBoard()
+      updateCategory('forumThreadUrls', categories.forumThread);
+      updateButtonCountForumThread()
+      updateCategory('blogsUrls', categories.blogs);
+      updateButtonCountBlogs()
+      updateCategory('listingUrls', categories.listing);
+      updateButtonCountListing()
+      updateCategory('mysiteGroupUrls', categories.mysiteGroup);
+      updateButtonCountMysiteGroup()
+      updateCategory('groupUrls', categories.group);
+      updateButtonCountGroup()
+      updateCategory('forumsTopicUrls', categories.forumsTopic);
+      updateButtonCountForumTopic()
+      updateCategory('mncoPostsUrls', categories.mncoPosts);
+      updateButtonCountMncoPosts()
+      updateCategory('memberUrls', categories.member);
+      updateButtonCountMember()
+      updateCategory('candidateUrls', categories.candidate);
+      updateButtonCountCandidate()
+      updateCategory('authorUrls', categories.author);
+      updateButtonCountAuthor()
+      updateCategory('companyUrls', categories.company);
+      updateButtonCountCompany()
+      updateCategory('companiesUrls', categories.companies);
+      updateButtonCountCompanies()
+      updateCategory('forumsUsersUrls', categories.forumsUsers);
+      updateButtonCountForumsUsers()
+      updateCategory('classifiedsUrls', categories.classifieds);
+      updateButtonCountClassifieds()
+      updateCategory('adsUrls', categories.ads);
+      updateButtonCountAds()
+      updateCategory('users2Urls', categories.users2);
+      updateButtonCountUsers2()
+      updateCategory('member2Urls', categories.member2);
+      updateButtonCountMember2()
+      updateCategory('topicUrls', categories.topic);
+      updateButtonCountTopic()
+      updateCategory('servicesUrls', categories.services);
+      updateButtonCountServices()
+      updateCategory('discussUrls', categories.discuss);
+      updateButtonCountDiscuss()
+      updateCategory('profile2Urls', categories.profile2);
+      updateButtonCountProfile2()
+      updateCategory('employer2Urls', categories.employer2);
+      updateButtonCountEmployer2()
+      updateCategory('wikiUrls', categories.wiki);
+      updateButtonCountWiki()
+      updateCategory('postsUrls', categories.posts);
+      updateButtonCountPosts()
+      updateCategory('pUrls', categories.p);
+      updateButtonCountP()
+      updateCategory('pageUrls', categories.page);
+      updateButtonCountPage()
+      updateCategory('atSignUrls', categories.atSign);
+      updateButtonCountAtSign()
+      updateCategory('mediaUrls', categories.media);
+      updateButtonCountMedia()
+      updateCategory('webPageUrls', categories.webPage);
+      updateButtonCountWebPage()
+      updateCategory('blogUrls', categories.blog);
+      updateButtonCountBlog()
+      updateCategory('ideaUrls', categories.idea);
+      updateButtonCountIdea()
+      updateCategory('forumsUrls', categories.forums);
+      updateButtonCountForums()
+      updateCategory('guestbookHtmlUrls', categories.guestbook);
+      updateButtonCountGuestbook()
+      updateCategory('viewtopicUrls', categories.viewtopic);
+      updateButtonCountViewtopic()
+    }
+    // Define the original labels for all buttons (place this at the top)
+    const originalLabels = {
+      employerButton: "/employer/",
+      profileButton: "/profile/",
+      forumButton: "/forum/",
+      readblogButton: "/read-blog/",
+      otherButton: "/other/",
+      questionButton: "/question/",
+      communityProfileButton: "/community/profile/",
+      userButton: "/user/",
+      discussionsButton: "/discussions/",
+      uButton: "/u/",
+      snippetsButton: "/snippets/",
+      issuesButton: "/issues/",
+      projectsButton: "-/projects",
+      tabFieldCorePfieldButton: "?tab=field_core_pfield",
+      peopleButton: "/people/",
+      ideasButton: "/ideas/",
+      boardButton: "/board/board_topic/",
+      forumThreadButton: "/forum/thread/",
+      blogsButton: "/blogs/",
+      listingButton: "/listing/",
+      mysiteGroupButton: "mysite-200-group",
+      groupButton: "/group/",
+      forumsTopicButton: "/forums/topic/",
+      mncoPostsButton: "mn.co/posts/",
+      memberButton: "/member/",
+      candidateButton: "/candidate/",
+      authorButton: "/author/",
+      companyButton: "/company/",
+      companiesButton: "/companies/",
+      forumsUsersButton: "/forums/users/",
+      classifiedsButton: "/classifieds/",
+      adsButton: "/ads/",
+      users2Button: "/users/",
+      member2Button: "/members/",
+      topicButton: "/topic/",
+      servicesButton: "/services/",
+      discussButton: "/discuss/",
+      profile2Button: "/profiles/",
+      employer2Button: "/employers/",
+      wikiButton: "/wiki/",
+      postsButton: "/posts/",
+      pButton: "/p/",
+      pageButton: "/page/",
+      atSignButton: "/@",
+      mediaButton: "/media/",
+      webPageButton: "/webpage/",
+      blogButton: "/blog/",
+      ideaButton: "/idea/",
+      forumsButton: "/forums/",
+      guestbookHtmlButton: "/guestbook.html",
+      viewtopicButton: "/viewtopic.",
+    };
+    // Your reset function
+    function resetFields() {
+      // Clear the input textarea
+      document.getElementById('urlInput').value = "";
+      // List all your URL display div IDs
+      const urlDivIds = [
+        'profileUrls', 'forumUrls', 'employerUrls', 'readblogUrls', 'otherUrls',
+        'questionUrls', 'communityProfileUrls', 'userUrls', 'discussionsUrls',
+        'uUrls', 'snippetsUrls', 'issuesUrls', 'projectsUrls', 'tabFieldCorePfieldUrls',
+        'peopleUrls', 'ideasUrls', 'boardUrls', 'forumThreadUrls', 'blogsUrls',
+        'listingUrls', 'mysiteGroupUrls', 'groupUrls', 'forumsTopicUrls', 'mncoPostsUrls',
+        'memberUrls', 'candidateUrls', 'authorUrls', 'companyUrls', 'companiesUrls',
+        'forumsUsersUrls', 'classifiedsUrls', 'adsUrls', 'users2Urls', 'member2Urls',
+        'topicUrls', 'servicesUrls', 'discussUrls', 'profile2Urls', 'employer2Urls', 'wikiUrls', 'postsUrls', 'pUrls', 'pageUrls', 'atSignUrls', 'mediaUrls', 'webPageUrls', 'blogUrls', 'ideaUrls', 'forumsUrls', 'guestbookHtmlUrls', 'viewtopicUrls'
+      ];
+      // Reset all URL display areas to "No URLs"
+      urlDivIds.forEach(id => {
+        document.getElementById(id).textContent = "No URLs";
+      });
+      // Reset all button labels
+      for (const [buttonId, label] of Object.entries(originalLabels)) {
+        const btn = document.getElementById(buttonId);
+        if (btn) {
+          btn.textContent = label;
+        }
       }
-      function scrollToSection(sectionId) {
-        document.getElementById(sectionId).scrollIntoView({
+    }
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+    function updateButtonCountEmployer() {
+      const button = document.getElementById('employerButton');
+      const countContainer = document.getElementById('employerUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountProfile() {
+      const button = document.getElementById('profileButton');
+      const countContainer = document.getElementById('profileUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountForum() {
+      const button = document.getElementById('forumButton');
+      const countContainer = document.getElementById('forumUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountReadblog() {
+      const button = document.getElementById('readblogButton');
+      const countContainer = document.getElementById('readblogUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountOther() {
+      const button = document.getElementById('otherButton');
+      const countContainer = document.getElementById('otherUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountQuestion() {
+      const button = document.getElementById('questionButton');
+      const countContainer = document.getElementById('questionUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountCommunityProfile() {
+      const button = document.getElementById('communityProfileButton');
+      const countContainer = document.getElementById('communityProfileUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountUser() {
+      const button = document.getElementById('userButton');
+      const countContainer = document.getElementById('userUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountDiscussions() {
+      const button = document.getElementById('discussionsButton');
+      const countContainer = document.getElementById('discussionsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountU() {
+      const button = document.getElementById('uButton');
+      const countContainer = document.getElementById('uUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountSnippets() {
+      const button = document.getElementById('snippetsButton');
+      const countContainer = document.getElementById('snippetsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountIssues() {
+      const button = document.getElementById('issuesButton');
+      const countContainer = document.getElementById('issuesUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountProjects() {
+      const button = document.getElementById('projectsButton');
+      const countContainer = document.getElementById('projectsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCounttabFieldCorePfield() {
+      const button = document.getElementById('tabFieldCorePfieldButton');
+      const countContainer = document.getElementById('tabFieldCorePfieldUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountPeople() {
+      const button = document.getElementById('peopleButton');
+      const countContainer = document.getElementById('peopleUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountIdeas() {
+      const button = document.getElementById('ideasButton');
+      const countContainer = document.getElementById('ideasUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountBoard() {
+      const button = document.getElementById('boardButton');
+      const countContainer = document.getElementById('boardUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountForumThread() {
+      const button = document.getElementById('forumThreadButton');
+      const countContainer = document.getElementById('forumThreadUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountBlogs() {
+      const button = document.getElementById('blogsButton');
+      const countContainer = document.getElementById('blogsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountListing() {
+      const button = document.getElementById('listingButton');
+      const countContainer = document.getElementById('listingUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountMysiteGroup() {
+      const button = document.getElementById('mysiteGroupButton');
+      const countContainer = document.getElementById('mysiteGroupUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountGroup() {
+      const button = document.getElementById('groupButton');
+      const countContainer = document.getElementById('groupUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountForumTopic() {
+      const button = document.getElementById('forumsTopicButton');
+      const countContainer = document.getElementById('forumsTopicUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountMncoPosts() {
+      const button = document.getElementById('mncoPostsButton');
+      const countContainer = document.getElementById('mncoPostsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountMember() {
+      const button = document.getElementById('memberButton');
+      const countContainer = document.getElementById('memberUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountCandidate() {
+      const button = document.getElementById('candidateButton');
+      const countContainer = document.getElementById('candidateUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountAuthor() {
+      const button = document.getElementById('authorButton');
+      const countContainer = document.getElementById('authorUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountCompany() {
+      const button = document.getElementById('companyButton');
+      const countContainer = document.getElementById('companyUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountCompanies() {
+      const button = document.getElementById('companiesButton');
+      const countContainer = document.getElementById('companiesUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountForumsUsers() {
+      const button = document.getElementById('forumsUsersButton');
+      const countContainer = document.getElementById('forumsUsersUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountClassifieds() {
+      const button = document.getElementById('classifiedsButton');
+      const countContainer = document.getElementById('classifiedsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountAds() {
+      const button = document.getElementById('adsButton');
+      const countContainer = document.getElementById('adsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountUsers2() {
+      const button = document.getElementById('users2Button');
+      const countContainer = document.getElementById('users2Urls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountMember2() {
+      const button = document.getElementById('member2Button');
+      const countContainer = document.getElementById('member2Urls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountTopic() {
+      const button = document.getElementById('topicButton');
+      const countContainer = document.getElementById('topicUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountServices() {
+      const button = document.getElementById('servicesButton');
+      const countContainer = document.getElementById('servicesUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountDiscuss() {
+      const button = document.getElementById('discussButton');
+      const countContainer = document.getElementById('discussUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountProfile2() {
+      const button = document.getElementById('profile2Button');
+      const countContainer = document.getElementById('profile2Urls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountEmployer2() {
+      const button = document.getElementById('employer2Button');
+      const countContainer = document.getElementById('employer2Urls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountWiki() {
+      const button = document.getElementById('wikiButton');
+      const countContainer = document.getElementById('wikiUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountPosts() {
+      const button = document.getElementById('postsButton');
+      const countContainer = document.getElementById('postsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountP() {
+      const button = document.getElementById('pButton');
+      const countContainer = document.getElementById('pUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountPage() {
+      const button = document.getElementById('pageButton');
+      const countContainer = document.getElementById('pageUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountAtSign() {
+      const button = document.getElementById('atSignButton');
+      const countContainer = document.getElementById('atSignUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountMedia() {
+      const button = document.getElementById('mediaButton');
+      const countContainer = document.getElementById('mediaUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountWebPage() {
+      const button = document.getElementById('webPageButton');
+      const countContainer = document.getElementById('webPageUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountBlog() {
+      const button = document.getElementById('blogButton');
+      const countContainer = document.getElementById('blogUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountIdea() {
+      const button = document.getElementById('ideaButton');
+      const countContainer = document.getElementById('ideaUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountForums() {
+      const button = document.getElementById('forumsButton');
+      const countContainer = document.getElementById('forumsUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountGuestbook() {
+      const button = document.getElementById('guestbookHtmlButton');
+      const countContainer = document.getElementById('guestbookHtmlUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function updateButtonCountViewtopic() {
+      const button = document.getElementById('viewtopicButton');
+      const countContainer = document.getElementById('viewtopicUrls'); // The container with URLs
+      // Count the number of URLs (lines in the text content)
+      const text = countContainer.textContent.trim();
+      const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+      // Retrieve the base label
+      const baseLabel = button.getAttribute('data-base-label');
+      // Update button text to include count
+      button.textContent = `${baseLabel} (${urlCount})`;
+    }
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      }, () => {
+        alert("Failed to copy!");
+      });
+    }
+    function downloadResult() {
+      // List of all category div IDs
+      const categories = [{
+          id: 'profileUrls',
+          label: 'Profile URLs'
+        },
+        {
+          id: 'forumUrls',
+          label: 'Forum URLs'
+        },
+        {
+          id: 'employerUrls',
+          label: 'Employer URLs'
+        },
+        {
+          id: 'readblogUrls',
+          label: 'Read Blog URLs'
+        },
+        {
+          id: 'otherUrls',
+          label: 'Other URLs'
+        },
+        {
+          id: 'questionUrls',
+          label: 'Question URLs'
+        },
+        {
+          id: 'communityProfileUrls',
+          label: 'Community Profile URLs'
+        },
+        {
+          id: 'userUrls',
+          label: 'User URLs'
+        },
+        {
+          id: 'discussionsUrls',
+          label: 'Discussions URLs'
+        },
+        {
+          id: 'uUrls',
+          label: 'U URLs'
+        },
+        {
+          id: 'snippetsUrls',
+          label: 'Snippets URLs'
+        },
+        {
+          id: 'issuesUrls',
+          label: 'Issues URLs'
+        },
+        {
+          id: 'projectsUrls',
+          label: 'Projects URLs'
+        },
+        {
+          id: 'tabFieldCorePfieldUrls',
+          label: 'Tab Core PField URLs'
+        },
+        {
+          id: 'peopleUrls',
+          label: 'People URLs'
+        },
+        {
+          id: 'ideasUrls',
+          label: 'Ideas URLs'
+        },
+        {
+          id: 'boardUrls',
+          label: 'Board URLs'
+        },
+        {
+          id: 'forumThreadUrls',
+          label: 'Forum Thread URLs'
+        },
+        {
+          id: 'blogsUrls',
+          label: 'Blogs URLs'
+        },
+        {
+          id: 'listingUrls',
+          label: 'Listing URLs'
+        },
+        {
+          id: 'mysiteGroupUrls',
+          label: 'Mysite Group URLs'
+        },
+        {
+          id: 'groupUrls',
+          label: 'Group URLs'
+        },
+        {
+          id: 'forumsTopicUrls',
+          label: 'Forums Topic URLs'
+        },
+        {
+          id: 'mncoPostsUrls',
+          label: 'MNCO Posts URLs'
+        },
+        {
+          id: 'memberUrls',
+          label: 'Member URLs'
+        },
+        {
+          id: 'candidateUrls',
+          label: 'Candidate URLs'
+        },
+        {
+          id: 'authorUrls',
+          label: 'Author URLs'
+        },
+        {
+          id: 'companyUrls',
+          label: 'Company URLs'
+        },
+        {
+          id: 'companiesUrls',
+          label: 'Companies URLs'
+        },
+        {
+          id: 'forumsUsersUrls',
+          label: 'Forums Users URLs'
+        },
+        {
+          id: 'classifiedsUrls',
+          label: 'Classifieds URLs'
+        },
+        {
+          id: 'adsUrls',
+          label: 'Ads URLs'
+        },
+        {
+          id: 'users2Urls',
+          label: 'Users2 URLs'
+        },
+        {
+          id: 'member2Urls',
+          label: 'Member2 URLs'
+        },
+        {
+          id: 'topicUrls',
+          label: 'Topic URLs'
+        },
+        {
+          id: 'servicesUrls',
+          label: 'Services URLs'
+        },
+        {
+          id: 'discussUrls',
+          label: 'Discuss URLs'
+        },
+        {
+          id: 'profile2Urls',
+          label: 'Profile2 URLs'
+        },
+        {
+          id: 'employer2Urls',
+          label: 'Employer2 URLs'
+        },
+        {
+          id: 'wikiUrls',
+          label: 'Wiki URLs'
+        },
+        {
+          id: 'postsUrls',
+          label: 'Posts URLs'
+        },
+        {
+          id: 'pUrls',
+          label: 'p URLs'
+        },
+        {
+          id: 'pageUrls',
+          label: 'Page URLs'
+        },
+        {
+          id: 'atSignUrls',
+          label: 'atSign URLs'
+        },
+        {
+          id: 'mediaUrls',
+          label: 'Media URLs'
+        },
+        {
+          id: 'webPageUrls',
+          label: 'Webpage URLs'
+        },
+        {
+          id: 'blogUrls',
+          label: 'Blog URLs'
+        },
+        {
+          id: 'ideaUrls',
+          label: 'Idea URLs'
+        },
+        {
+          id: 'forumsUrls',
+          label: 'Forums URLs'
+        },
+        {
+          id: 'guestbookHtmlUrls',
+          label: 'Guestbook URLs'
+        },
+        {
+          id: 'viewtopicUrls',
+          label: 'Viewtopic URLs'
+        },
+      ];
+      let content = '';
+      // Loop through all categories and append data
+      categories.forEach(cat => {
+        const data = document.getElementById(cat.id).textContent.trim();
+        content += `=== ${cat.label} ===\n`;
+        content += data + '\n\n';
+      });
+      // Create a blob of the data
+      const blob = new Blob([content], {
+        type: 'text/plain'
+      });
+      const url = URL.createObjectURL(blob);
+      // Create a temporary link to trigger download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'categorized_urls.txt'; // filename
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    window.onload = () => {
+      const overlay = document.getElementById('introOverlay');
+      const totalAnimationTime = 1.0 + 0.8; // seconds, adjust if needed
+      // Wait for the animation to finish
+      setTimeout(() => {
+        overlay.style.display = 'none'; // hide overlay
+        document.getElementById('mainTool').style.display = 'block'; // show main content
+      }, totalAnimationTime * 1000);
+    };
+    // JavaScript for smooth scrolling to sections
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({
           behavior: 'smooth'
         });
       }
-    </script>
-    </script>
+    }
+  </script>
   </body>
 </html>
