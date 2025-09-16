@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>URL Path Separator</title>
     <link rel="stylesheet" href="url-path-separator.css" />
+    <link rel="stylesheet" href="footer com.css" />
   </head>
   <body>
     <header>
@@ -112,35 +113,48 @@
     </div>
 
     <!-- Footer -->
-    <footer>
-      <div class="footer-container">
-        <div class="footer-section">
-          <h3>Contact</h3>
-          <p>Email: shakeeb.sa.ahmed@gmail.com</p>
+    <div class="footer-com">
+      <footer id="contact">
+        <div class="footer-container" role="contentinfo">
+          <div class="footer-section">
+            <h3>Contact</h3>
+            <p>
+              <i class="fas fa-envelope"></i>
+              <a
+                href="mailto:shakeeb.sa.ahmed@gmail.com"
+                aria-label="Email Shakeeb"
+                >shakeeb.sa.ahmed@gmail.com</a
+              >
+            </p>
+            <p>
+              <i class="fab fa-github"></i>
+              <a
+                href="https://github.com/shakeeb-sa/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Github Profile"
+                >github.com/shakeeb-sa</a
+              >
+            </p>
+            <p>
+              <i class="fab fa-linkedin"></i>
+              <a
+                href="https://pk.linkedin.com/in/shakeeb-ahmed-034093370"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
+                >linkedin.com/in/shakeeb-ahmed</a
+              >
+            </p>
+          </div>
+        </div>
+        <div class="copyright">
           <p>
-            Github:
-            <a
-              href="https://github.com/shakeeb-sa/"
-              target="_blank"
-              rel="noopener noreferrer"
-              >https://github.com/shakeeb-sa/</a
-            >
-          </p>
-          <p>
-            LinkedIn:
-            <a
-              href="https://pk.linkedin.com/in/shakeeb-ahmed-034093370"
-              target="_blank"
-              rel="noopener noreferrer"
-              >https://pk.linkedin.com/in/shakeeb-ahmed-034093370</a
-            >
+            &copy; <span id="currentYear"></span> 2025 Created by Shakeeb Ahmed
           </p>
         </div>
-      </div>
-      <p style="text-align: center; margin-top: 1rem">
-        Created by Shakeeb Ahmed
-      </p>
-    </footer>
+      </footer>
+    </div>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
