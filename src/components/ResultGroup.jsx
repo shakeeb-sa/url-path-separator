@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// src/components/ResultGroup.jsx
+import React, { useState, useEffect } from 'react';
 import { FaChevronDown, FaChevronRight, FaCopy } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -10,7 +11,7 @@ const ResultGroup = ({ id, label, urls, onCopy }) => {
   return (
     <div style={{ 
       background: 'white', 
-      border: '1px solid var(--ah-border)', 
+      border: '1px solid var(--border)', 
       marginBottom: '10px', 
       borderRadius: '4px',
       overflow: 'hidden' 
@@ -24,19 +25,19 @@ const ResultGroup = ({ id, label, urls, onCopy }) => {
           justifyContent: 'space-between', 
           alignItems: 'center',
           background: isOpen ? '#FAFBFC' : 'white',
-          borderBottom: isOpen ? '1px solid var(--ah-border)' : 'none'
+          borderBottom: isOpen ? '1px solid var(--border)' : 'none'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {isOpen ? <FaChevronDown size={12} color="#666" /> : <FaChevronRight size={12} color="#666" />}
           <span style={{ fontWeight: 600, fontSize: '14px' }}>{label || id}</span>
           <span style={{ 
-            background: 'var(--ah-grey-bg)', 
+            background: '#F0F4F8', 
             padding: '2px 8px', 
             borderRadius: '12px', 
             fontSize: '11px', 
             fontWeight: 700,
-            color: 'var(--ah-text-muted)'
+            color: 'var(--text-muted)'
           }}>
             {urls.length}
           </span>
@@ -50,7 +51,7 @@ const ResultGroup = ({ id, label, urls, onCopy }) => {
           }}
           style={{ padding: '4px 8px', fontSize: '12px' }}
         >
-          <FaCopy /> Copy
+          <FaCopy />
         </button>
       </div>
 
@@ -62,14 +63,15 @@ const ResultGroup = ({ id, label, urls, onCopy }) => {
             exit={{ height: 0, opacity: 0 }}
             style={{ overflow: 'hidden' }}
           >
-            <div style={{ padding: '16px', background: '#FFFFFF' }}>
+            <div style={{ padding: '16px', background: '#FFFFFF', borderTop: '1px solid #eee' }}>
               <pre style={{ 
                 margin: 0, 
                 fontFamily: 'var(--font-mono)', 
-                fontSize: '13px', 
-                color: 'var(--ah-text-muted)',
+                fontSize: '12px', 
+                color: 'var(--text-main)',
                 whiteSpace: 'pre-wrap',
-                wordBreak: 'break-all'
+                wordBreak: 'break-all',
+                lineHeight: '1.5'
               }}>
                 {urls.join('\n')}
               </pre>

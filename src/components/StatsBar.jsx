@@ -1,25 +1,57 @@
 import React from 'react';
 
+const StatCard = ({ label, value, color, bg }) => (
+  <div className="card" style={{ 
+    padding: '20px', 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center',
+    borderTop: `3px solid ${color}` 
+  }}>
+    <div style={{ 
+      fontSize: '32px', 
+      fontWeight: 700, 
+      color: color, 
+      lineHeight: 1,
+      marginBottom: '8px' 
+    }}>
+      {value}
+    </div>
+    <div style={{ 
+      fontSize: '11px', 
+      fontWeight: 700, 
+      color: 'var(--text-muted)', 
+      textTransform: 'uppercase', 
+      letterSpacing: '0.5px' 
+    }}>
+      {label}
+    </div>
+  </div>
+);
+
 const StatsBar = ({ totalUrls, categorizedCount, otherCount }) => {
   return (
     <div style={{ 
       display: 'grid', 
-      gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', 
-      gap: '16px', 
-      marginBottom: '24px' 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', 
+      gap: '20px', 
+      marginBottom: '32px' 
     }}>
-      <div className="card" style={{ padding: '16px', textAlign: 'center', marginBottom: 0 }}>
-        <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ah-blue)' }}>{totalUrls}</div>
-        <div style={{ fontSize: '12px', color: 'var(--ah-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total URLs</div>
-      </div>
-      <div className="card" style={{ padding: '16px', textAlign: 'center', marginBottom: 0 }}>
-        <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ah-green)' }}>{categorizedCount}</div>
-        <div style={{ fontSize: '12px', color: 'var(--ah-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Categorized</div>
-      </div>
-      <div className="card" style={{ padding: '16px', textAlign: 'center', marginBottom: 0 }}>
-        <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ah-red)' }}>{otherCount}</div>
-        <div style={{ fontSize: '12px', color: 'var(--ah-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Uncategorized</div>
-      </div>
+      <StatCard 
+        label="Total URLs" 
+        value={totalUrls} 
+        color="var(--ah-blue)" 
+      />
+      <StatCard 
+        label="Categorized" 
+        value={categorizedCount} 
+        color="var(--success)" 
+      />
+      <StatCard 
+        label="Uncategorized" 
+        value={otherCount} 
+        color={otherCount > 0 ? "var(--ah-orange)" : "var(--text-muted)"} 
+      />
     </div>
   );
 };
