@@ -63,149 +63,6 @@ vite.config.js
 <files>
 This section contains the contents of the repository's files.
 
-<file path="src/components/CategoryManager.jsx">
-import React, { useState } from 'react';
-import { FaPlus, FaTimes } from 'react-icons/fa';
-
-const CategoryManager = ({ categories, setCategories, onClose }) => {
-  const [newLabel, setNewLabel] = useState('');
-
-  const handleAdd = () => {
-    if (!newLabel.trim()) return;
-    const id = newLabel.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const newCat = { id, label: newLabel.trim() };
-    setCategories([...categories, newCat]);
-    setNewLabel('');
-  };
-
-  const handleRemove = (id) => {
-    setCategories(categories.filter(c => c.id !== id));
-  };
-
-  return (
-    <div className="card" style={{ marginBottom: '20px', padding: '0' }}>
-      <div style={{ 
-        padding: '12px 20px', 
-        borderBottom: '1px solid var(--border)', 
-        background: '#FAFBFC',
-        display: 'flex', 
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-        <h3 style={{ fontSize: '15px', margin: 0 }}>Configure Categories</h3>
-        <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', padding: 0 }}>
-          <FaTimes />
-        </button>
-      </div>
-
-      <div style={{ padding: '20px' }}>
-        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '16px' }}>
-          Add text segments to search for in URLs. The order matters (top priority first).
-        </p>
-
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-          <input 
-            type="text" 
-            value={newLabel}
-            onChange={(e) => setNewLabel(e.target.value)}
-            placeholder="e.g. /shop/ or ?product_id="
-            style={{ flex: 1 }}
-            onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
-          />
-          <button className="btn-accent" onClick={handleAdd}>
-            <FaPlus /> Add Rule
-          </button>
-        </div>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', maxHeight: '200px', overflowY: 'auto' }}>
-          {categories.map((cat) => (
-            <div key={cat.id} style={{ 
-              background: '#F0F4F8', 
-              border: '1px solid #DCE0E5', 
-              borderRadius: '20px', 
-              padding: '4px 12px',
-              fontSize: '13px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <code>{cat.label}</code>
-              <FaTimes 
-                style={{ cursor: 'pointer', color: '#999' }} 
-                onClick={() => handleRemove(cat.id)}
-                size={10}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default CategoryManager;
-</file>
-
-<file path="src/components/Toolbar.jsx">
-import React from 'react';
-import { FaTrash, FaEraser, FaCut, FaCog } from 'react-icons/fa';
-
-const Toolbar = ({ options, setOptions, onReset, onConfigure }) => {
-  
-  const toggleOption = (key) => {
-    setOptions(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  return (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'space-between', 
-      alignItems: 'center', 
-      padding: '12px 16px',
-      background: '#FAFBFC',
-      borderBottom: '1px solid var(--border)',
-      flexWrap: 'wrap',
-      gap: '12px'
-    }}>
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-          Data Cleaning:
-        </span>
-        
-        <button 
-          className={options.removeDuplicates ? 'btn-primary' : 'btn-secondary'}
-          onClick={() => toggleOption('removeDuplicates')}
-          style={{ padding: '6px 12px', fontSize: '13px' }}
-          title="Remove duplicate URLs"
-        >
-          <FaCut size={12} /> Dedup
-        </button>
-
-        <button 
-          className={options.trimParams ? 'btn-primary' : 'btn-secondary'}
-          onClick={() => toggleOption('trimParams')}
-          style={{ padding: '6px 12px', fontSize: '13px' }}
-          title="Remove ?ref=... from URLs"
-        >
-          <FaEraser size={12} /> Trim Params
-        </button>
-      </div>
-
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <button className="btn-secondary" onClick={onConfigure}>
-          <FaCog size={12} /> Configure Categories
-        </button>
-        <button className="btn-danger" onClick={onReset} style={{ padding: '6px 12px', fontSize: '13px' }}>
-          <FaTrash size={12} /> Clear
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export default Toolbar;
-</file>
-
 <file path=".gitignore">
 # Logs
 logs
@@ -387,26 +244,207 @@ If you are developing a production application, we recommend using TypeScript wi
 }
 </file>
 
+<file path="src/assets/react.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+</file>
+
+<file path="src/components/CategoryManager.jsx">
+import React, { useState } from 'react';
+import { FaPlus, FaTimes } from 'react-icons/fa';
+
+const CategoryManager = ({ categories, setCategories, onClose }) => {
+  const [newLabel, setNewLabel] = useState('');
+
+  const handleAdd = () => {
+    if (!newLabel.trim()) return;
+    const id = newLabel.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const newCat = { id, label: newLabel.trim() };
+    setCategories([...categories, newCat]);
+    setNewLabel('');
+  };
+
+  const handleRemove = (id) => {
+    setCategories(categories.filter(c => c.id !== id));
+  };
+
+  return (
+    <div className="card" style={{ marginBottom: '20px', padding: '0' }}>
+      <div style={{ 
+        padding: '12px 20px', 
+        borderBottom: '1px solid var(--border)', 
+        background: '#FAFBFC',
+        display: 'flex', 
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <h3 style={{ fontSize: '15px', margin: 0 }}>Configure Categories</h3>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', padding: 0 }}>
+          <FaTimes />
+        </button>
+      </div>
+
+      <div style={{ padding: '20px' }}>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '16px' }}>
+          Add text segments to search for in URLs. The order matters (top priority first).
+        </p>
+
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+          <input 
+            type="text" 
+            value={newLabel}
+            onChange={(e) => setNewLabel(e.target.value)}
+            placeholder="e.g. /shop/ or ?product_id="
+            style={{ flex: 1 }}
+            onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
+          />
+          <button className="btn-accent" onClick={handleAdd}>
+            <FaPlus /> Add Rule
+          </button>
+        </div>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', maxHeight: '200px', overflowY: 'auto' }}>
+          {categories.map((cat) => (
+            <div key={cat.id} style={{ 
+              background: '#F0F4F8', 
+              border: '1px solid #DCE0E5', 
+              borderRadius: '20px', 
+              padding: '4px 12px',
+              fontSize: '13px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <code>{cat.label}</code>
+              <FaTimes 
+                style={{ cursor: 'pointer', color: '#999' }} 
+                onClick={() => handleRemove(cat.id)}
+                size={10}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CategoryManager;
+</file>
+
+<file path="src/components/Toolbar.jsx">
+import React from 'react';
+import { FaTrash, FaEraser, FaCut, FaCog } from 'react-icons/fa';
+
+const Toolbar = ({ options, setOptions, onReset, onConfigure }) => {
+  
+  const toggleOption = (key) => {
+    setOptions(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  return (
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
+      padding: '12px 16px',
+      background: '#FAFBFC',
+      borderBottom: '1px solid var(--border)',
+      flexWrap: 'wrap',
+      gap: '12px'
+    }}>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+          Data Cleaning:
+        </span>
+        
+        <button 
+          className={options.removeDuplicates ? 'btn-primary' : 'btn-secondary'}
+          onClick={() => toggleOption('removeDuplicates')}
+          style={{ padding: '6px 12px', fontSize: '13px' }}
+          title="Remove duplicate URLs"
+        >
+          <FaCut size={12} /> Dedup
+        </button>
+
+        <button 
+          className={options.trimParams ? 'btn-primary' : 'btn-secondary'}
+          onClick={() => toggleOption('trimParams')}
+          style={{ padding: '6px 12px', fontSize: '13px' }}
+          title="Remove ?ref=... from URLs"
+        >
+          <FaEraser size={12} /> Trim Params
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <button className="btn-secondary" onClick={onConfigure}>
+          <FaCog size={12} /> Configure Categories
+        </button>
+        <button className="btn-danger" onClick={onReset} style={{ padding: '6px 12px', fontSize: '13px' }}>
+          <FaTrash size={12} /> Clear
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Toolbar;
+</file>
+
+<file path="src/main.jsx">
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+</file>
+
 <file path="src/App.jsx">
 import React, { useState } from 'react';
 import Header from './components/Header';
 import StatsBar from './components/StatsBar';
 import ResultGroup from './components/ResultGroup';
-import { DEFAULT_CATEGORIES, processUrls } from './utils/categories';
-import { FaTrash, FaDownload, FaFilter } from 'react-icons/fa';
+import Toolbar from './components/Toolbar';
+import CategoryManager from './components/CategoryManager';
+import { DEFAULT_CATEGORIES, processUrls, cleanData } from './utils/categories';
+import { FaDownload, FaFilter, FaMagic } from 'react-icons/fa';
 
 function App() {
+  // State for Input & Data
   const [inputText, setInputText] = useState('');
   const [results, setResults] = useState({});
   const [filter, setFilter] = useState('');
+  
+  // State for Configuration
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
+  const [options, setOptions] = useState({
+    removeDuplicates: true,
+    trimParams: false
+  });
+  const [showManager, setShowManager] = useState(false);
 
   const handleSeparate = () => {
-    const res = processUrls(inputText, DEFAULT_CATEGORIES);
+    if (!inputText.trim()) return;
+
+    // 1. Convert text string to array
+    let rawUrls = inputText.split(/\r?\n/);
+
+    // 2. Clean Data (Dedup, Trim, Empty lines)
+    const cleanedUrls = cleanData(rawUrls, options);
+
+    // 3. Process with Dynamic Categories
+    const res = processUrls(cleanedUrls, categories);
+    
     setResults(res);
   };
 
   const handleReset = () => {
-    if (window.confirm("Clear everything?")) {
+    if (window.confirm("Clear all input and results?")) {
       setInputText('');
       setResults({});
     }
@@ -414,12 +452,17 @@ function App() {
 
   const handleDownload = () => {
     let content = "";
-    Object.keys(results).forEach(key => {
-      if (results[key].length > 0) {
-        const label = DEFAULT_CATEGORIES.find(c => c.id === key)?.label || "Other / Uncategorized";
-        content += `=== ${label} ===\n${results[key].join('\n')}\n\n`;
+    // Export categorized groups
+    categories.forEach(cat => {
+      if (results[cat.id] && results[cat.id].length > 0) {
+        content += `=== ${cat.label} ===\n${results[cat.id].join('\n')}\n\n`;
       }
     });
+    
+    // Export Uncategorized
+    if (results['other'] && results['other'].length > 0) {
+        content += `=== Other / Unmatched ===\n${results['other'].join('\n')}\n\n`;
+    }
     
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -431,7 +474,7 @@ function App() {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    alert("Copied to clipboard!"); // Ideally use a Toast component
+    // You might want to add a toast notification library here later
   };
 
   // Stats Calculation
@@ -445,39 +488,55 @@ function App() {
 
       <main className="main-content">
         
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '20px' }}>
-          <div>
-            <h2 style={{ fontSize: '24px', marginBottom: '8px' }}>Batch URL Separator</h2>
-            <p style={{ color: 'var(--ah-text-muted)' }}>Paste raw URLs to categorize them by path structure.</p>
-          </div>
-        </div>
+        <div style={{ marginBottom: '24px', textAlign: 'center' }}>
+    <h2 style={{ fontSize: '28px', marginBottom: '12px', fontWeight: 800 }}>Batch URL Organizer</h2>
+    <p style={{ color: 'var(--text-muted)', fontSize: '16px', maxWidth: '600px', margin: '0 auto' }}>
+      Paste your raw URL list below. We'll clean the data and automatically categorize links based on their path structure.
+    </p>
+</div>
+
+        {/* Configuration Area */}
+        {showManager && (
+          <CategoryManager 
+            categories={categories} 
+            setCategories={setCategories} 
+            onClose={() => setShowManager(false)} 
+          />
+        )}
 
         {/* Input Area */}
-        <div className="card">
-          <textarea 
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            placeholder={`https://example.com/profile/user1\nhttps://example.com/forum/topic123\nhttps://example.com/random-page`}
-            rows={8}
-            style={{ marginBottom: '16px' }}
-          />
+        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
           
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <button className="btn-primary" onClick={handleSeparate}>
-              Separate URLs
-            </button>
-            <button className="btn-secondary" onClick={handleDownload} disabled={totalUrls === 0}>
-              <FaDownload /> Download Report
-            </button>
-            <button className="btn-text" onClick={handleReset} style={{ marginLeft: 'auto', color: 'var(--ah-red)' }}>
-              <FaTrash /> Clear All
-            </button>
+          <Toolbar 
+            options={options} 
+            setOptions={setOptions} 
+            onReset={handleReset}
+            onConfigure={() => setShowManager(!showManager)}
+          />
+
+          <div style={{ padding: '20px' }}>
+            <textarea 
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder={`https://example.com/profile/user1\nhttps://example.com/forum/topic123\nhttps://example.com/random-page`}
+              rows={8}
+              style={{ marginBottom: '16px', border: '1px solid #E1E4E8' }}
+            />
+            
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <button className="btn-primary" onClick={handleSeparate}>
+                <FaMagic /> Separate URLs
+              </button>
+              <button className="btn-secondary" onClick={handleDownload} disabled={totalUrls === 0}>
+                <FaDownload /> Download Report
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Results Area */}
         {totalUrls > 0 && (
-          <div>
+          <div style={{ marginTop: '32px' }}>
             <StatsBar 
               totalUrls={totalUrls} 
               categorizedCount={categorizedCount} 
@@ -501,15 +560,15 @@ function App() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '20px', alignItems: 'start' }}>
               {/* Categorized Column */}
               <div>
-                <h4 style={{ fontSize: '14px', textTransform: 'uppercase', color: 'var(--ah-text-muted)', marginBottom: '10px' }}>Categorized</h4>
-                {DEFAULT_CATEGORIES
-                  .filter(cat => cat.label.includes(filter))
+                <h4 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '10px' }}>Categorized</h4>
+                {categories
+                  .filter(cat => cat.label.toLowerCase().includes(filter.toLowerCase()))
                   .map(cat => (
                     <ResultGroup 
                       key={cat.id} 
                       id={cat.id} 
                       label={cat.label} 
-                      urls={results[cat.id]} 
+                      urls={results[cat.id] || []} 
                       onCopy={copyToClipboard}
                     />
                 ))}
@@ -517,11 +576,11 @@ function App() {
 
               {/* Other/Uncategorized Column */}
               <div>
-                <h4 style={{ fontSize: '14px', textTransform: 'uppercase', color: 'var(--ah-text-muted)', marginBottom: '10px' }}>Uncategorized</h4>
+                <h4 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '10px' }}>Uncategorized</h4>
                 <ResultGroup 
                   id="other" 
                   label="Other / Unmatched" 
-                  urls={results['other']} 
+                  urls={results['other'] || []} 
                   onCopy={copyToClipboard} 
                 />
               </div>
@@ -531,8 +590,8 @@ function App() {
 
       </main>
 
-      <footer style={{ textAlign: 'center', padding: '30px', color: 'var(--ah-text-muted)', fontSize: '13px', borderTop: '1px solid var(--ah-border)', marginTop: 'auto', background: 'white' }}>
-        &copy; {new Date().getFullYear()} PathSeparator Tool. Inspired by Ahrefs Design.
+      <footer style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)', fontSize: '13px', borderTop: '1px solid var(--border)', marginTop: 'auto', background: 'white' }}>
+        &copy; {new Date().getFullYear()} PathSeparator Tool.
       </footer>
     </div>
   );
@@ -541,32 +600,48 @@ function App() {
 export default App;
 </file>
 
-<file path="src/assets/react.svg">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
-</file>
-
 <file path="src/components/Header.jsx">
 import React from 'react';
-import { FaLink, FaGithub } from 'react-icons/fa';
+import { FaLink } from 'react-icons/fa';
 
 const Header = () => {
   return (
     <header style={{ 
       background: 'white', 
-      borderBottom: '1px solid var(--ah-border)', 
-      padding: '12px 0' 
+      borderBottom: '1px solid var(--border)', 
+      height: '60px',
+      display: 'flex',
+      alignItems: 'center',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
     }}>
-      <div className="main-content" style={{ padding: '0 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {/* FIXED LINE BELOW: Added quotes around var(--ah-blue) */}
-          <div style={{ background: 'var(--ah-blue)', color: 'white', padding: '6px', borderRadius: '4px' }}>
+      <div className="main-content" style={{ padding: '0 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 auto', height: '100%' }}>
+        
+        {/* Logo Area */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ 
+            background: 'var(--ah-blue)', 
+            color: 'white', 
+            width: '32px', 
+            height: '32px', 
+            borderRadius: '4px',
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            fontSize: '16px'
+          }}>
             <FaLink />
           </div>
-          <span style={{ fontWeight: 700, fontSize: '18px', color: 'var(--ah-dark)' }}>PathSeparator</span>
+          <span style={{ fontWeight: 700, fontSize: '18px', color: 'var(--ah-dark)', letterSpacing: '-0.5px' }}>
+            Path<span style={{ color: 'var(--ah-blue)' }}>Separator</span>
+          </span>
         </div>
         
-        <div style={{ display: 'flex', gap: '15px', fontSize: '14px' }}>
-           <a href="https://shakeeb-sa.github.io/" target="_blank" rel="noreferrer" style={{ textDecoration: 'none', color: 'var(--ah-text-muted)', fontWeight: 500 }}>Portfolio</a>
+        {/* Right Side */}
+        <div style={{ display: 'flex', gap: '20px', fontSize: '14px' }}>
+           <span style={{ color: 'var(--text-muted)' }}>Batch URL Processor</span>
         </div>
       </div>
     </header>
@@ -577,7 +652,8 @@ export default Header;
 </file>
 
 <file path="src/components/ResultGroup.jsx">
-import React, { useState } from 'react';
+// src/components/ResultGroup.jsx
+import React, { useState, useEffect } from 'react';
 import { FaChevronDown, FaChevronRight, FaCopy } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -589,7 +665,7 @@ const ResultGroup = ({ id, label, urls, onCopy }) => {
   return (
     <div style={{ 
       background: 'white', 
-      border: '1px solid var(--ah-border)', 
+      border: '1px solid var(--border)', 
       marginBottom: '10px', 
       borderRadius: '4px',
       overflow: 'hidden' 
@@ -603,19 +679,19 @@ const ResultGroup = ({ id, label, urls, onCopy }) => {
           justifyContent: 'space-between', 
           alignItems: 'center',
           background: isOpen ? '#FAFBFC' : 'white',
-          borderBottom: isOpen ? '1px solid var(--ah-border)' : 'none'
+          borderBottom: isOpen ? '1px solid var(--border)' : 'none'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {isOpen ? <FaChevronDown size={12} color="#666" /> : <FaChevronRight size={12} color="#666" />}
           <span style={{ fontWeight: 600, fontSize: '14px' }}>{label || id}</span>
           <span style={{ 
-            background: 'var(--ah-grey-bg)', 
+            background: '#F0F4F8', 
             padding: '2px 8px', 
             borderRadius: '12px', 
             fontSize: '11px', 
             fontWeight: 700,
-            color: 'var(--ah-text-muted)'
+            color: 'var(--text-muted)'
           }}>
             {urls.length}
           </span>
@@ -629,7 +705,7 @@ const ResultGroup = ({ id, label, urls, onCopy }) => {
           }}
           style={{ padding: '4px 8px', fontSize: '12px' }}
         >
-          <FaCopy /> Copy
+          <FaCopy />
         </button>
       </div>
 
@@ -641,14 +717,15 @@ const ResultGroup = ({ id, label, urls, onCopy }) => {
             exit={{ height: 0, opacity: 0 }}
             style={{ overflow: 'hidden' }}
           >
-            <div style={{ padding: '16px', background: '#FFFFFF' }}>
+            <div style={{ padding: '16px', background: '#FFFFFF', borderTop: '1px solid #eee' }}>
               <pre style={{ 
                 margin: 0, 
                 fontFamily: 'var(--font-mono)', 
-                fontSize: '13px', 
-                color: 'var(--ah-text-muted)',
+                fontSize: '12px', 
+                color: 'var(--text-main)',
                 whiteSpace: 'pre-wrap',
-                wordBreak: 'break-all'
+                wordBreak: 'break-all',
+                lineHeight: '1.5'
               }}>
                 {urls.join('\n')}
               </pre>
@@ -666,26 +743,58 @@ export default ResultGroup;
 <file path="src/components/StatsBar.jsx">
 import React from 'react';
 
+const StatCard = ({ label, value, color, bg }) => (
+  <div className="card" style={{ 
+    padding: '20px', 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center',
+    borderTop: `3px solid ${color}` 
+  }}>
+    <div style={{ 
+      fontSize: '32px', 
+      fontWeight: 700, 
+      color: color, 
+      lineHeight: 1,
+      marginBottom: '8px' 
+    }}>
+      {value}
+    </div>
+    <div style={{ 
+      fontSize: '11px', 
+      fontWeight: 700, 
+      color: 'var(--text-muted)', 
+      textTransform: 'uppercase', 
+      letterSpacing: '0.5px' 
+    }}>
+      {label}
+    </div>
+  </div>
+);
+
 const StatsBar = ({ totalUrls, categorizedCount, otherCount }) => {
   return (
     <div style={{ 
       display: 'grid', 
-      gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', 
-      gap: '16px', 
-      marginBottom: '24px' 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', 
+      gap: '20px', 
+      marginBottom: '32px' 
     }}>
-      <div className="card" style={{ padding: '16px', textAlign: 'center', marginBottom: 0 }}>
-        <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ah-blue)' }}>{totalUrls}</div>
-        <div style={{ fontSize: '12px', color: 'var(--ah-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total URLs</div>
-      </div>
-      <div className="card" style={{ padding: '16px', textAlign: 'center', marginBottom: 0 }}>
-        <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ah-green)' }}>{categorizedCount}</div>
-        <div style={{ fontSize: '12px', color: 'var(--ah-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Categorized</div>
-      </div>
-      <div className="card" style={{ padding: '16px', textAlign: 'center', marginBottom: 0 }}>
-        <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--ah-red)' }}>{otherCount}</div>
-        <div style={{ fontSize: '12px', color: 'var(--ah-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Uncategorized</div>
-      </div>
+      <StatCard 
+        label="Total URLs" 
+        value={totalUrls} 
+        color="var(--ah-blue)" 
+      />
+      <StatCard 
+        label="Categorized" 
+        value={categorizedCount} 
+        color="var(--success)" 
+      />
+      <StatCard 
+        label="Uncategorized" 
+        value={otherCount} 
+        color={otherCount > 0 ? "var(--ah-orange)" : "var(--text-muted)"} 
+      />
     </div>
   );
 };
@@ -698,34 +807,40 @@ export default StatsBar;
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  /* Brand Colors */
+  /* --- Brand Palette --- */
   --ah-blue: #0073F1;
   --ah-blue-hover: #0060CB;
   --ah-orange: #FF6C37; /* The "Pro" Accent */
   --ah-orange-hover: #E85B2A;
+  --ah-dark: #1E2633;   /* Headings */
   
-  /* Structure */
-  --bg-app: #F4F6F8;
+  /* --- UI Surfaces --- */
+  --bg-app: #F4F6F8;    /* Light Grey Background */
   --bg-card: #FFFFFF;
   --border: #DCE0E5;
   --border-focus: #0073F1;
   
-  /* Text */
+  /* --- Text --- */
   --text-main: #1E2633;
   --text-muted: #66758C;
+  --text-light: #97A0AF;
   
-  /* Data Colors */
+  /* --- Functional Colors --- */
   --success: #28A745;
+  --success-bg: #EAF7ED;
   --warning: #FFAD0D;
   --danger: #D73A49;
+  --danger-bg: #FFF5F5;
 
-  /* UI Tokens */
-  --radius: 4px;
+  /* --- Dimensions --- */
+  --radius: 4px; /* Ahrefs uses sharp corners, small radius */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-  --transition: all 0.2s ease;
+  
+  /* --- Effects --- */
+  --shadow-sm: 0 1px 2px rgba(27,31,35,0.04);
+  --shadow-md: 0 4px 12px rgba(27,31,35,0.08);
+  --transition: all 0.2s ease-in-out;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -746,16 +861,17 @@ body, html {
 
 .main-content {
   flex: 1;
-  max-width: 1280px;
+  max-width: 1140px; /* Tighter, more professional width */
   width: 100%;
   margin: 0 auto;
-  padding: 32px 24px;
+  padding: 40px 24px;
 }
 
 /* Typography */
-h1, h2, h3 { color: var(--text-main); letter-spacing: -0.01em; }
+h1, h2, h3, h4 { color: var(--ah-dark); letter-spacing: -0.02em; font-weight: 600; }
+p { line-height: 1.5; }
 
-/* Buttons */
+/* --- Professional Buttons --- */
 button {
   cursor: pointer;
   border: 1px solid transparent;
@@ -769,36 +885,46 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  height: 38px;
 }
 
+/* The "Ahrefs Orange" Action Button */
 .btn-primary {
-  background-color: var(--ah-blue);
-  color: white;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-.btn-primary:hover { background-color: var(--ah-blue-hover); transform: translateY(-1px); }
-
-.btn-accent {
   background-color: var(--ah-orange);
   color: white;
+  border: 1px solid var(--ah-orange);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
-.btn-accent:hover { background-color: var(--ah-orange-hover); }
+.btn-primary:hover { 
+  background-color: var(--ah-orange-hover); 
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
 
+/* The "Blue" Secondary Action */
 .btn-secondary {
   background-color: white;
   border-color: var(--border);
   color: var(--text-main);
+  box-shadow: var(--shadow-sm);
 }
-.btn-secondary:hover { background-color: #F8F9FA; border-color: #B0B8C1; }
-
-.btn-danger {
-  background-color: white;
-  border-color: var(--border);
-  color: var(--danger);
+.btn-secondary:hover { 
+  border-color: var(--ah-blue); 
+  color: var(--ah-blue);
+  background-color: #F8FAFC;
 }
-.btn-danger:hover { background-color: #FFF5F5; border-color: var(--danger); }
 
-/* Inputs & Editor */
+/* Small Text Button */
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 0 8px;
+}
+.btn-text:hover { color: var(--ah-dark); text-decoration: underline; }
+
+/* --- Inputs & Editor --- */
 textarea, input[type="text"] {
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -809,14 +935,15 @@ textarea, input[type="text"] {
   transition: var(--transition);
   background: white;
   color: var(--text-main);
+  line-height: 1.6;
 }
 textarea:focus, input:focus {
   outline: none;
   border-color: var(--ah-blue);
-  box-shadow: 0 0 0 3px rgba(0, 115, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 115, 241, 0.15); /* Blue Glow */
 }
 
-/* Card Style */
+/* --- Cards --- */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -825,23 +952,11 @@ textarea:focus, input:focus {
   overflow: hidden;
 }
 
-/* Custom Scrollbar */
+/* Scrollbar Polish */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
-</file>
-
-<file path="src/main.jsx">
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 </file>
 
 <file path="src/utils/categories.js">
@@ -850,39 +965,79 @@ createRoot(document.getElementById('root')).render(
 export const DEFAULT_CATEGORIES = [
   { id: "profile", label: "/profile/" },
   { id: "forum", label: "/forum/" },
-  { id: "blog", label: "/blog/" },
-  { id: "product", label: "/product/" },
-  { id: "category", label: "/category/" },
-  { id: "shop", label: "/shop/" },
-  { id: "news", label: "/news/" },
-  { id: "wiki", label: "/wiki/" },
-  { id: "tag", label: "/tag/" },
+  { id: "employer", label: "/employer/" },
+  { id: "read_blog", label: "/read-blog/" },
+  { id: "path_other", label: "/other/" }, // Renamed ID to avoid conflict with Uncategorized
+  { id: "question", label: "/question/" },
+  { id: "community_profile", label: "/community/profile/" },
+  { id: "user", label: "/user/" },
+  { id: "discussions", label: "/discussions/" },
+  { id: "u_short", label: "/u/" },
+  { id: "snippets", label: "/snippets/" },
+  { id: "issues", label: "/issues/" },
+  { id: "projects", label: "-/projects" },
+  { id: "tab_field", label: "?tab=field_core_pfield" },
+  { id: "people", label: "/people/" },
+  { id: "ideas", label: "/ideas/" },
+  { id: "board_topic", label: "/board/board_topic/" },
+  { id: "forum_thread", label: "/forum/thread/" },
+  { id: "blogs", label: "/blogs/" },
+  { id: "listing", label: "/listing/" },
+  { id: "mysite_group", label: "mysite-200-group" },
+  { id: "group", label: "/group/" },
+  { id: "forums_topic", label: "/forums/topic/" },
+  { id: "mn_posts", label: "mn.co/posts/" },
+  { id: "member", label: "/member/" },
+  { id: "candidate", label: "/candidate/" },
   { id: "author", label: "/author/" },
-  { id: "search", label: "/search/" },
-  { id: "api", label: "/api/" },
+  { id: "company", label: "/company/" },
+  { id: "companies", label: "/companies/" },
+  { id: "forums_users", label: "/forums/users/" },
+  { id: "classifieds", label: "/classifieds/" },
+  { id: "ads", label: "/ads/" },
+  { id: "users", label: "/users/" },
+  { id: "members", label: "/members/" },
+  { id: "topic", label: "/topic/" },
+  { id: "services", label: "/services/" },
+  { id: "discuss", label: "/discuss/" },
+  { id: "profiles", label: "/profiles/" },
+  { id: "employers", label: "/employers/" },
+  { id: "wiki", label: "/wiki/" },
+  { id: "posts", label: "/posts/" },
+  { id: "p_short", label: "/p/" },
+  { id: "page", label: "/page/" },
+  { id: "at_mention", label: "/@" },
+  { id: "media", label: "/media/" },
+  { id: "webpage", label: "/webpage/" },
+  { id: "blog", label: "/blog/" },
+  { id: "idea", label: "/idea/" },
+  { id: "forums", label: "/forums/" },
+  { id: "guestbook", label: "/guestbook.html" },
+  { id: "viewtopic", label: "/viewtopic." },
 ];
 
 export const cleanData = (urls, options) => {
-  let processed = [...urls];
+  // Remove empty lines and whitespace first
+  let processed = urls.map(u => u.trim()).filter(u => u !== "");
 
-  // 1. Remove Duplicates
+  // 1. Trim Query Params (?id=123)
+  if (options.trimParams) {
+    processed = processed.map(url => {
+      try {
+        // We only trim if the URL doesn't match a category that explicitly REQUIRES query params
+        // (Like your "?tab=field..." category)
+        if (url.includes('?tab=field')) return url;
+        return url.split('?')[0];
+      } catch (e) { return url; }
+    });
+  }
+
+  // 2. Remove Duplicates
   if (options.removeDuplicates) {
     processed = [...new Set(processed)];
   }
 
-  // 2. Trim Query Params (?id=123)
-  if (options.trimParams) {
-    processed = processed.map(url => {
-      try {
-        return url.split('?')[0];
-      } catch (e) { return url; }
-    });
-    // Re-deduplicate after trimming
-    if (options.removeDuplicates) processed = [...new Set(processed)];
-  }
-
-  // 3. Remove Empty lines
-  return processed.filter(u => u.trim() !== "");
+  return processed;
 };
 
 export const processUrls = (urls, categories) => {
@@ -892,6 +1047,8 @@ export const processUrls = (urls, categories) => {
   categories.forEach(cat => results[cat.id] = []);
   results['other'] = [];
 
+  if (!urls || urls.length === 0) return results;
+
   urls.forEach(url => {
     let lowerUrl = url.toLowerCase();
     let categorized = false;
@@ -900,7 +1057,7 @@ export const processUrls = (urls, categories) => {
       if (lowerUrl.includes(cat.label.toLowerCase())) {
         results[cat.id].push(url);
         categorized = true;
-        break;
+        break; // Stop at first match (priority based on list order)
       }
     }
 
